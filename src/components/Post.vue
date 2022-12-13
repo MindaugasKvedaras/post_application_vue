@@ -36,14 +36,6 @@
                 {{ author.name }}
               </option>
             </select>
-
-            <!-- <label class="label">Author</label>
-            <input
-              class="input is-success"
-              type="text"
-              v-model="author"
-              required
-            /> -->
           </form>
         </section>
         <footer class="modal-card-foot">
