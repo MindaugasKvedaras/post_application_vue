@@ -27,43 +27,23 @@
               type="text"
               required
             />
-            <div class="dropdown is-active">
-              <div class="dropdown-trigger">
-                <button
-                  class="button"
-                  aria-haspopup="true"
-                  aria-controls="dropdown-menu"
-                >
-                  <span>Dropdown button</span>
-                  <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <a href="#" class="dropdown-item">
-                    Dropdown item
-                  </a>
-                  <a class="dropdown-item">
-                    Other dropdown item
-                  </a>
-                  <a href="#" class="dropdown-item is-active">
-                    Active dropdown item
-                  </a>
-                  <a href="#" class="dropdown-item">
-                    Other dropdown item
-                  </a>
-                </div>
-              </div>
-            </div>
-            <label class="label">Author</label>
+            <select v-model="author">
+              <option
+                v-for="author in authors"
+                v-bind:value="author.id"
+                :key="author.id"
+              >
+                {{ author.name }}
+              </option>
+            </select>
+
+            <!-- <label class="label">Author</label>
             <input
               class="input is-success"
               type="text"
               v-model="author"
               required
-            />
+            /> -->
           </form>
         </section>
         <footer class="modal-card-foot">
@@ -74,6 +54,7 @@
         </footer>
       </div>
     </div>
+
     <div class="card">
       <button class="delete" v-on:click="deletePost(article.id)"></button>
       <div class="card-content">
@@ -82,11 +63,17 @@
             <p class="title">{{ article.title }}</p>
           </div>
         </div>
-
         <div class="content">
           {{ article.body }}
+        </div>
+        <div
+          class="content"
+          v-for="author in authors"
+          :key="author.id"
+          v-if="article.id == author.id"
+        >
           <br />
-          <time>Created at: {{ article.createdAt }}</time>
+          <p>Created at: {{ article.createdAt }} by {{ author.name }}</p>
         </div>
       </div>
     </div>
@@ -100,11 +87,13 @@ export default {
   data() {
     return {
       articles: [],
+      authors: [],
       title: undefined,
       body: undefined,
       author: undefined,
       showModal: this.visible,
-      createdAt: undefined
+      createdAt: undefined,
+      name: undefined
     };
   },
 
@@ -138,9 +127,26 @@ export default {
           author: this.author,
           createdAt: new Date().toLocaleString("lt-LT")
         })
+        .then(this.postInAuthors(id))
         .then(response => console.log(response))
         .then(() => this.$emit("reload-posts"))
         .then(this.resetFields());
+    },
+
+    getAuthors() {
+      axios
+        .get(this.$apiUrl + "/authors", {
+          name: this.name,
+          id: this.id
+        })
+        .then(response => (this.authors = response.data))
+        .then(response => console.log(response));
+    },
+
+    postInAuthors(id) {
+      axios.put(this.$apiUrl + "/authors/" + id, {
+        createdAt: new Date().toLocaleString("lt-LT")
+      });
     },
 
     deletePost(id) {
@@ -160,6 +166,10 @@ export default {
 
       console.log(jsonDate);
     }
+  },
+
+  created() {
+    this.getAuthors();
   }
 };
 </script>

@@ -1,19 +1,49 @@
 {
   "articles": [
     {
-      "id": 1,
       "title": "First Post",
       "body": "Random text",
-      "author": "Mindaugas",
-      "createdAt": "2022-12-13"
+      "author": "1",
+      "createdAt": "2022-12-13 13:25:31",
+      "id": 1
+    },
+    {
+      "title": "Second Post",
+      "body": "Domas post text",
+      "author": 2,
+      "createdAt": "2022-12-13 15:53:49",
+      "id": 2
+    },
+    {
+      "title": "wfwef",
+      "body": "wefwe",
+      "author": 2,
+      "createdAt": "2022-12-13 15:59:12",
+      "id": 3
+    },
+    {
+      "title": "wefwe",
+      "body": "fwefwe",
+      "author": 2,
+      "createdAt": "2022-12-13 15:59:28",
+      "id": 4
+    },
+    {
+      "title": "wfewe",
+      "body": "fwefwe",
+      "author": 2,
+      "createdAt": "2022-12-13 15:59:57",
+      "id": 5
     }
   ],
   "authors": [
     {
       "id": 1,
-      "name": "Mindaugas",
-      "createdAt": "new Date().toLocaleString('lt-LT')",
-      "updated_at": "2022-12-13"
+      "name": "Mindaugas"
+    },
+    {
+      "id": 2,
+      "name": "Domas"
     }
   ]
 }
