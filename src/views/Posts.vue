@@ -8,7 +8,7 @@
         :article="article"
         :visible="showModal"
         v-on:close-modal="closeModal"
-        v-on:reloda-posts="getPosts"
+        v-on:reload-posts="getPosts"
       ></post>
     </div>
   </div>

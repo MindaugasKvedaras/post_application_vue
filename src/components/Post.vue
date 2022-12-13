@@ -14,20 +14,68 @@
         <section class="modal-card-body">
           <form>
             <label class="label">Title</label>
-            <input class="input is-success" type="text" v-model="title" required/>
+            <input
+              class="input is-success"
+              type="text"
+              v-model="title"
+              required
+            />
             <label class="label">Article text</label>
-            <textarea class="textarea is-primary" v-model="body" type="text" required/>
+            <textarea
+              class="textarea is-primary"
+              v-model="body"
+              type="text"
+              required
+            />
+            <div class="dropdown is-active">
+              <div class="dropdown-trigger">
+                <button
+                  class="button"
+                  aria-haspopup="true"
+                  aria-controls="dropdown-menu"
+                >
+                  <span>Dropdown button</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <a href="#" class="dropdown-item">
+                    Dropdown item
+                  </a>
+                  <a class="dropdown-item">
+                    Other dropdown item
+                  </a>
+                  <a href="#" class="dropdown-item is-active">
+                    Active dropdown item
+                  </a>
+                  <a href="#" class="dropdown-item">
+                    Other dropdown item
+                  </a>
+                </div>
+              </div>
+            </div>
             <label class="label">Author</label>
-            <input class="input is-success" type="text" v-model="author" required/>
+            <input
+              class="input is-success"
+              type="text"
+              v-model="author"
+              required
+            />
           </form>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success" v-on:click="createPost">Save changes</button>
+          <button class="button is-success" v-on:click="createPost">
+            Save changes
+          </button>
           <button class="button">Cancel</button>
         </footer>
       </div>
     </div>
     <div class="card">
+      <button class="delete" v-on:click="deletePost(article.id)"></button>
       <div class="card-content">
         <div class="media">
           <div class="media-content">
@@ -38,7 +86,7 @@
         <div class="content">
           {{ article.body }}
           <br />
-          <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+          <time>Created at: {{ article.createdAt }}</time>
         </div>
       </div>
     </div>
@@ -55,7 +103,8 @@ export default {
       title: undefined,
       body: undefined,
       author: undefined,
-      showModal: this.visible
+      showModal: this.visible,
+      createdAt: undefined
     };
   },
 
@@ -71,26 +120,33 @@ export default {
       default: false
     }
   },
-  watch:{
+  watch: {
     visible: {
-        immediate: true,
-        handler: function(newVal) {
-            this.showModal = newVal
-        }
+      immediate: true,
+      handler: function(newVal) {
+        this.showModal = newVal;
+      }
     }
   },
 
   methods: {
     createPost() {
       axios
-      .post(this.$apiUrl + "/articles", {
-        title: this.title,
-        body: this.body,
-        author: this.author
-      })
-      .then(response => console.log(response))
-      .then(() => this.$emit("reload-posts"))
-      .then(this.resetFields());
+        .post(this.$apiUrl + "/articles", {
+          title: this.title,
+          body: this.body,
+          author: this.author,
+          createdAt: new Date().toLocaleString("lt-LT")
+        })
+        .then(response => console.log(response))
+        .then(() => this.$emit("reload-posts"))
+        .then(this.resetFields());
+    },
+
+    deletePost(id) {
+      axios
+        .delete(this.$apiUrl + "/articles/" + id)
+        .then(() => this.$emit("reload-posts"));
     },
 
     resetFields() {
@@ -98,8 +154,13 @@ export default {
       this.author = undefined;
       this.body = undefined;
     },
-  }
 
+    getDate() {
+      const jsonDate = new Date().toLocaleString("lt-LT");
+
+      console.log(jsonDate);
+    }
+  }
 };
 </script>
 
