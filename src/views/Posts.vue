@@ -2,16 +2,20 @@
   <div>
     <button @click="toggleModal">Create new post</button>
     <input type="text" v-model="searchTerm"/>
+    <post-create
+      :visible="showModal"
+      v-on:close-modal="closeModal"
+      v-on:reload-posts="handleGetPosts"
+    ></post-create>
+
     <div class="post_container">
-      <post
+      <post-card
         v-for="article in filteredArticles"
         :key="article.id"
         :article="article"
-        :visible="showModal"
-        v-on:close-modal="closeModal"
-        v-on:reload-posts="getPosts"
+        v-on:reload-posts="handleGetPosts"
       >
-      </post>
+      </post-card>
     </div>
   </div>
 </template>
@@ -19,7 +23,8 @@
 <script>
 import axios from "axios";
 
-import Post from "../components/Post.vue";
+import PostCard from "../components/PostCard.vue";
+import PostCreate from "../components/PostCreate.vue";
 
 export default {
   data() {
@@ -31,7 +36,8 @@ export default {
   },
 
   components: {
-    Post
+    PostCard,
+    PostCreate
   },
 
   methods: {
@@ -39,6 +45,10 @@ export default {
       axios
         .get(this.$apiUrl + "/articles")
         .then(response => (this.articles = response.data));
+    },
+
+    handleGetPosts() {
+      this.getPosts();
     },
 
     toggleModal() {

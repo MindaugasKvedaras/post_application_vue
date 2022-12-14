@@ -5,24 +5,42 @@
       "body": "Domas post text",
       "author": 2,
       "createdAt": "2022-12-13 15:53:49",
-      "id": 2
+      "id": 1
     },
     {
       "title": "One more post by Domas",
       "body": "Text for post",
       "author": 2,
       "createdAt": "2022-12-14 01:37:26",
+      "id": 2
+    },
+    {
+      "title": "Wow! What a post!!",
+      "body": "This is the text for this amazing post",
+      "author": 1,
+      "createdAt": "2022-12-14 22:52:21",
       "id": 3
+    },
+    {
+      "title": "Mindaugas post",
+      "body": "This is my post text",
+      "author": 2,
+      "createdAt": "2022-12-14 22:53:26",
+      "id": 4
     }
   ],
   "authors": [
     {
       "id": 1,
-      "name": "Mindaugas"
+      "name": "Mindaugas",
+      "createdAt": "2022-12-13 11:53:49",
+      "updatedAt": "2022-12-14 16:00:20"
     },
     {
       "id": 2,
-      "name": "Domas"
+      "name": "Domas",
+      "createdAt": "2022-12-13 15:53:49",
+      "updatedAt": "2022-12-14 12:00:20"
     }
   ]
 }
