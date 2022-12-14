@@ -27,7 +27,10 @@
               type="text"
               required
             />
-            <select v-model="author">
+
+            <label class="label">Select author</label>
+            <div class="select is-primary">
+              <select class="select" v-model="author">
               <option
                 v-for="author in authors"
                 v-bind:value="author.id"
@@ -36,11 +39,12 @@
                 {{ author.name }}
               </option>
             </select>
+            </div>
           </form>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success" v-on:click="createPost">
-            Save changes
+          <button class="button is-success" v-on:click.prevent="createPost()">
+            Create Article
           </button>
           <button class="button">Cancel</button>
         </footer>
@@ -48,7 +52,10 @@
     </div>
 
     <div class="card">
-      <button class="delete" v-on:click="deletePost(article.id)"></button>
+      <div class="editor">
+        <lead-pencil class="edit-icon" v-on:click="editFields(article.id, article.title)"/>
+        <button class="delete" v-on:click="deletePost(article.id)"></button>
+      </div>
       <div class="card-content">
         <div class="media">
           <div class="media-content">
@@ -62,7 +69,7 @@
           class="content"
           v-for="author in authors"
           :key="author.id"
-          v-if="article.id == author.id"
+          v-if="article.author == author.id"
         >
           <br />
           <p>Created at: {{ article.createdAt }} by {{ author.name }}</p>
@@ -75,6 +82,9 @@
 <script>
 import axios from "axios";
 
+import LeadPencil from 'vue-material-design-icons/Pencil.vue';
+
+
 export default {
   data() {
     return {
@@ -85,8 +95,12 @@ export default {
       author: undefined,
       showModal: this.visible,
       createdAt: undefined,
-      name: undefined
+      name: undefined,
     };
+  },
+
+  components: {
+    LeadPencil
   },
 
   props: {
@@ -119,9 +133,9 @@ export default {
           author: this.author,
           createdAt: new Date().toLocaleString("lt-LT")
         })
-        .then(this.postInAuthors(id))
+        .then(this.postInAuthors(this.author))
         .then(response => console.log(response))
-        .then(() => this.$emit("reload-posts"))
+        // .then(() => this.$emit("reload-posts"))
         .then(this.resetFields());
     },
 
@@ -136,9 +150,22 @@ export default {
     },
 
     postInAuthors(id) {
-      axios.put(this.$apiUrl + "/authors/" + id, {
+      axios.patch(this.$apiUrl + "/authors/" + id, {
         createdAt: new Date().toLocaleString("lt-LT")
       });
+    },
+
+    editFields(id) {
+      axios
+        .get(this.$apiUrl + "/articles/" + id)
+        .then((response) => (this.articles = response.data))
+        .then(response => console.log(response))
+        .then(this.setFields(this.title))
+
+    },
+
+    setFields(title) {
+      this.title = title
     },
 
     deletePost(id) {
@@ -148,7 +175,7 @@ export default {
     },
 
     resetFields() {
-      this.title = undefined;
+      this.title = "labas";
       this.author = undefined;
       this.body = undefined;
     },
@@ -169,5 +196,23 @@ export default {
 <style scoped>
 .card {
   width: 100%;
+  max-width: 250px;
+  height: 360px;
+}
+
+.editor {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.edit-icon {
+  cursor: pointer;
+}
+.label {
+  margin-top: 10px;
+}
+.modal-card-body {
+  height: 380px;
 }
 </style>
