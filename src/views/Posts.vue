@@ -2,21 +2,16 @@
   <div>
     <button @click="toggleModal">Create new post</button>
     <input type="text" v-model="searchTerm"/>
-    <paginate-post>
-      <div class="post_container">
-          <post
-            v-for="article in filteredArticles"
-            :key="article.id"
-            :article="article"
-            :visible="showModal"
-            v-on:close-modal="closeModal"
-            v-on:reload-posts="getPosts"
-          >
-          </post>
-      </div>
-    </paginate-post>
-    <div>
-      
+    <div class="post_container">
+      <post
+        v-for="article in filteredArticles"
+        :key="article.id"
+        :article="article"
+        :visible="showModal"
+        v-on:close-modal="closeModal"
+        v-on:reload-posts="getPosts"
+      >
+      </post>
     </div>
   </div>
 </template>
@@ -25,7 +20,6 @@
 import axios from "axios";
 
 import Post from "../components/Post.vue";
-import PaginatePost from "../components/PaginatePost.vue";
 
 export default {
   data() {
@@ -33,13 +27,11 @@ export default {
       articles: [],
       showModal: false,
       searchTerm: undefined,
-      searchError: "labas"
     };
   },
 
   components: {
-    Post,
-    PaginatePost
+    Post
   },
 
   methods: {
@@ -82,10 +74,6 @@ export default {
         if(item.title.toLowerCase().indexOf(searchTerm) !== -1 || item.body.toLowerCase().indexOf(searchTerm) !== -1)
           return item;
       })
-
-      if(articles.length = 0) {
-        return searchError
-      }
 
       return articles;
     }
