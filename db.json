@@ -13,25 +13,16 @@
       "author": 2,
       "createdAt": "2022-12-14 01:37:26",
       "id": 3
-    },
-    {
-      "title": "Post by Mindaugas",
-      "body": "Great POST!",
-      "author": 1,
-      "createdAt": "2022-12-14 01:39:29",
-      "id": 4
     }
   ],
   "authors": [
     {
       "id": 1,
-      "name": "Mindaugas",
-      "createdAt": "2022-12-14 02:26:10"
+      "name": "Mindaugas"
     },
     {
       "id": 2,
-      "name": "Domas",
-      "createdAt": "2022-12-14 02:30:12"
+      "name": "Domas"
     }
   ]
 }

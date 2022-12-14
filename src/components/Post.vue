@@ -18,6 +18,7 @@
               class="input is-success"
               type="text"
               v-model="title"
+              value="title"
               required
             />
             <label class="label">Article text</label>
@@ -51,9 +52,10 @@
       </div>
     </div>
 
+
     <div class="card">
       <div class="editor">
-        <lead-pencil class="edit-icon" v-on:click="editFields(article.id, article.title)"/>
+        <lead-pencil class="edit-icon" v-on:click="setFields(article.title)"/>
         <button class="delete" v-on:click="deletePost(article.id)"></button>
       </div>
       <div class="card-content">
@@ -90,12 +92,14 @@ export default {
     return {
       articles: [],
       authors: [],
+      post: [],
       title: undefined,
       body: undefined,
       author: undefined,
       showModal: this.visible,
       createdAt: undefined,
       name: undefined,
+      searchTerm: undefined,
     };
   },
 
@@ -135,7 +139,7 @@ export default {
         })
         .then(this.postInAuthors(this.author))
         .then(response => console.log(response))
-        // .then(() => this.$emit("reload-posts"))
+        .then(() => this.$emit("reload-posts"))
         .then(this.resetFields());
     },
 
@@ -155,17 +159,25 @@ export default {
       });
     },
 
+    // editFields(title) {
+    //   title = this.title
+    //   console.log(title)
+    // },
+
     editFields(id) {
       axios
         .get(this.$apiUrl + "/articles/" + id)
-        .then((response) => (this.articles = response.data))
-        .then(response => console.log(response))
-        .then(this.setFields(this.title))
+        .then((response) => (this.title = response.data.title))
+        // .then(console.log(this.post))
+                // .then(console.log(this.title))
 
+        .then(response => console.log(response))
+        // .then(console.log(title))
+        // .then(this.setFields(title))
     },
 
     setFields(title) {
-      this.title = title
+      title = this.editFields(this.article.id)
     },
 
     deletePost(id) {
@@ -175,7 +187,7 @@ export default {
     },
 
     resetFields() {
-      this.title = "labas";
+      this.title = undefined;
       this.author = undefined;
       this.body = undefined;
     },
