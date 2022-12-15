@@ -1,7 +1,19 @@
 <template>
   <div>
     <button @click="toggleModal">Create new post</button>
-    <input type="text" v-model="searchTerm"/>
+    <input
+      type="text"
+      v-model="searchTerm"
+      v-debounce:1s="searchPosts"
+      debounce-event="input"
+    />
+    <post-get-error
+      v-for="error of errors"
+      :visible="visibleError"
+      :error="error"
+      :key="error.code"
+    ></post-get-error>
+
     <post-create
       :visible="showModal"
       v-on:close-modal="closeModal"
@@ -10,7 +22,7 @@
 
     <div class="post_container">
       <post-card
-        v-for="article in filteredArticles"
+        v-for="article in articles"
         :key="article.id"
         :article="article"
         v-on:reload-posts="handleGetPosts"
@@ -25,26 +37,52 @@ import axios from "axios";
 
 import PostCard from "../components/PostCard.vue";
 import PostCreate from "../components/PostCreate.vue";
+import PostGetError from "../components/PostGetError.vue";
 
 export default {
   data() {
     return {
       articles: [],
       showModal: false,
+      visibleError: true,
       searchTerm: undefined,
+      errors: []
     };
   },
 
   components: {
     PostCard,
-    PostCreate
+    PostCreate,
+    PostGetError
   },
 
   methods: {
     getPosts() {
       axios
         .get(this.$apiUrl + "/articles")
-        .then(response => (this.articles = response.data));
+        .then(response => (this.articles = response.data))
+        .catch(error => {
+          if (error.request) {
+            this.errors.push(error)
+            console.log(this.visibleError);
+          }
+        });
+    },
+
+    getFilteredPosts() {
+      axios
+        .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
+        .then(response => (this.articles = response.data))
+        .then(response => console.log(response));
+    },
+
+    searchPosts(searchTerm) {
+      if (!searchTerm) {
+        this.getPosts();
+      } else if (searchTerm) {
+        this.getFilteredPosts();
+      }
+      els;
     },
 
     handleGetPosts() {
@@ -56,36 +94,6 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-    },
-
-    searchArticle() {
-      axios
-        .get(this.$apiUrl + "/articles?q=" + "$searchTerm")
-        .then(response => (this.articles = response.data))
-        .then(response => console.log(response))
-
-        console.log(this.searchTerm)
-    }
-  },
-
-  computed: {
-    filteredArticles() {
-
-      var articles = this.articles;
-      var searchTerm = this.searchTerm;
-
-      if(!searchTerm) {
-        return articles;
-      }
-
-      searchTerm = searchTerm.trim().toLowerCase();
-
-      articles = articles.filter(function(item) {
-        if(item.title.toLowerCase().indexOf(searchTerm) !== -1 || item.body.toLowerCase().indexOf(searchTerm) !== -1)
-          return item;
-      })
-
-      return articles;
     }
   },
 

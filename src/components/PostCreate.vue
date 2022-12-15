@@ -17,9 +17,10 @@
             class="input is-success"
             type="text"
             v-model="title"
-            value="title"
             required
           />
+          <span v-if="emptyerror.title">{{ emptyerror.title }}</span>
+
           <label class="label">Article text</label>
           <textarea
             class="textarea is-primary"
@@ -27,6 +28,7 @@
             type="text"
             required
           />
+          <span v-if="emptyerror.body">{{ emptyerror.body }}</span>
 
           <label class="label">Select author</label>
           <div class="select is-primary">
@@ -44,13 +46,21 @@
         </form>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" v-on:click.prevent="createPost()">
-          Create Article
+        <button
+          type="submit"
+          class="button is-success"
+          v-on:click="createPost"
+          :disabled="!disabled.every(i => i === false)"
+        >
+          Create Post
         </button>
+
         <button class="button" v-on:click.prevent="cancelPostCreate()">
           Cancel
         </button>
-        <p class="error" v-for="error of errors.slice(0,1)">{{ error.message }}</p>
+        <p class="error" v-for="error of errors.slice(0, 1)">
+          {{ error.message }}
+        </p>
       </footer>
     </div>
   </div>
@@ -68,7 +78,9 @@ export default {
       author: undefined,
       showModal: this.visible,
       createdAt: undefined,
-      errors: []
+      errors: [],
+      emptyerror: [],
+      disabled: [true, true]
     };
   },
 
@@ -85,7 +97,18 @@ export default {
       handler: function(newVal) {
         this.showModal = newVal;
       }
+    },
+
+    title(value) {
+      this.title = value;
+      this.validateTitle(value);
+    },
+
+    body(value) {
+      this.body = value;
+      this.validateBody(value);
     }
+
   },
 
   methods: {
@@ -99,11 +122,18 @@ export default {
         })
         .then(response => console.log(response))
         .then(() => this.$emit("reload-posts"))
-        .catch((error) => (error.message = "Article was not created! Problems with server!", this.errors.push(error)));
-        
-        if(!this.errors.length) {
-            this.resetFields();
-        }
+        .catch(
+          error => (
+            (error.message = "Article was not created! Problems with server!"),
+            this.errors.push(error)
+          )
+        );
+
+      if (!this.errors.length) {
+        this.resetFields();
+      }
+
+        this.disabled = [this.disabled[1], true];
     },
 
     getAuthors() {
@@ -116,6 +146,26 @@ export default {
         .then(response => console.log(response));
     },
 
+    validateTitle(value) {
+      if (!value.length) {
+        this.emptyerror["title"] = "where is the title?";
+        this.disabled = [false, this.disabled[1]];
+      } else {
+        this.emptyerror["title"] = undefined;
+        this.disabled = [true, this.disabled[1]];
+      }
+    },
+
+    validateBody(value) {
+      if (!value.length) {
+        this.emptyerror["body"] = "where is the body?";
+        this.disabled = [this.disabled[1], true];
+      } else {
+        this.emptyerror["body"] = undefined;
+        this.disabled = [this.disabled[1], false];
+      }
+
+    },
     cancelPostCreate() {
       this.resetFields();
     },
@@ -124,18 +174,23 @@ export default {
       this.title = undefined;
       this.author = undefined;
       this.body = undefined;
+    },
+
+    handleEmptyInputError() {
+      this.titleError = "Empty";
+      this.bodyError = "Empty body";
     }
   },
 
   created() {
     this.getAuthors();
-    console.log(this.errors.length)
+    console.log(this.errors.length);
   }
 };
 </script>
 
 <style>
-    .error {
-        color: red;
-    }
+.error {
+  color: red;
+}
 </style>
