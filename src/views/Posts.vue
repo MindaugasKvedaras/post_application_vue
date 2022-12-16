@@ -12,6 +12,7 @@
       :visible="visibleError"
       :error="error"
       :key="error.code"
+      v-on:close-error="closeError"
     ></post-get-error>
 
     <post-create
@@ -44,7 +45,7 @@ export default {
     return {
       articles: [],
       showModal: false,
-      visibleError: true,
+      visibleError: false,
       searchTerm: undefined,
       errors: []
     };
@@ -62,9 +63,10 @@ export default {
         .get(this.$apiUrl + "/articles")
         .then(response => (this.articles = response.data))
         .catch(error => {
+          error.message = "Oops your server doesn't work!";
           if (error.request) {
-            this.errors.push(error)
-            console.log(this.visibleError);
+            this.errors.push(error);
+            this.showError();
           }
         });
     },
@@ -94,6 +96,14 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+    },
+
+    showError() {
+      this.visibleError = true;
+    },
+
+    closeError() {
+      this.visibleError = false;
     }
   },
 

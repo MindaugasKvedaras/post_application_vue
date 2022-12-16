@@ -2,9 +2,9 @@
   <div class="modal" :class="{ 'is-active': visibleError }">
     <div class="modal-background"></div>
     <div class="modal-content">
-      {{ error.message }}
+      <h1 class="error-message">{{ error.message }}</h1>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+    <button class="modal-close is-large" aria-label="close" v-on:click="$emit('close-error')"></button>
   </div>
 </template>
 
@@ -12,7 +12,7 @@
 export default {
   data() {
     return {
-      showModal: this.visible
+      visibleError: this.visible
     };
   },
 
@@ -20,7 +20,14 @@ export default {
     error: {
       required: true,
       type: Object
+    },
+
+    visible: {
+      require: true,
+      type: Boolean,
+      default: false
     }
+
   },
 
   watch: {
@@ -34,4 +41,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+  .modal-content{
+    text-align: center
+  }
+
+  .error-message {
+    color: red;
+  }
+</style>
