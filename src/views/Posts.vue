@@ -1,12 +1,20 @@
 <template>
-  <div>
-    <button @click="toggleModal">Create new post</button>
-    <input
-      type="text"
-      v-model="searchTerm"
-      v-debounce:1s="searchPosts"
-      debounce-event="input"
-    />
+  <div class="posts-container">
+    <div class="button-search_container">
+      <button class="button is-primary is-medium" @click="toggleModal">Create new post</button>
+      <div class="search-box">
+        <p class="title">Search post</p>
+      <input
+        class="input is-primary"
+        type="text"
+        v-model="searchTerm"
+        v-debounce:1s="searchPosts"
+        debounce-event="input"
+      />
+      <p class="subtitle has-text-danger" v-if="!articles.length">Sorry :( there is no post with your search "{{ searchTerm }}"</p>
+      </div>
+    </div>
+
     <post-get-error
       v-for="error of errors"
       :visible="visibleError"
@@ -21,12 +29,13 @@
       v-on:reload-posts="handleGetPosts"
     ></post-create>
 
-    <div class="post_container">
+    <div class="post-container">
       <post-card
         v-for="article in articles"
         :key="article.id"
         :article="article"
         v-on:reload-posts="handleGetPosts"
+        v-on:show-error="showError"
       >
       </post-card>
     </div>
@@ -47,7 +56,8 @@ export default {
       showModal: false,
       visibleError: false,
       searchTerm: undefined,
-      errors: []
+      errors: [],
+      
     };
   },
 
@@ -75,16 +85,23 @@ export default {
       axios
         .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
         .then(response => (this.articles = response.data))
-        .then(response => console.log(response));
+        .then(response => console.log(response))
+        .catch(error => {
+          error.message = "Oops your server doesn't work!";
+          if (error.request) {
+            this.errors.push(error);
+            this.showError();
+          }
+        });
     },
 
     searchPosts(searchTerm) {
       if (!searchTerm) {
         this.getPosts();
-      } else if (searchTerm) {
+      } else {
         this.getFilteredPosts();
       }
-      els;
+      
     },
 
     handleGetPosts() {
@@ -114,11 +131,29 @@ export default {
 </script>
 
 <style scoped>
-.post_container {
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.post-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
   margin: 50px 20px;
+}
+
+.button-search_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.search-box {
+  text-align: center;
+  width: 50%;
 }
 </style>

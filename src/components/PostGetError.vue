@@ -2,7 +2,8 @@
   <div class="modal" :class="{ 'is-active': visibleError }">
     <div class="modal-background"></div>
     <div class="modal-content">
-      <h1 class="error-message">{{ error.message }}</h1>
+      <img src="../assets/500error.png" alt="500-error"/>
+      <h1 class="title has-text-danger">{{ error.message }}</h1>
     </div>
     <button class="modal-close is-large" aria-label="close" v-on:click="$emit('close-error')"></button>
   </div>
@@ -43,10 +44,7 @@ export default {
 
 <style>
   .modal-content{
-    text-align: center
-  }
-
-  .error-message {
-    color: red;
+    text-align: center;
+    height: 100%;
   }
 </style>

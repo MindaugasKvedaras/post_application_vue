@@ -29,20 +29,6 @@
             required
           />
           <span v-if="emptyerror.body">{{ emptyerror.body }}</span>
-
-          <!-- <label class="label">Select author</label>
-          <div class="select is-primary">
-            <select v-model="author" required>
-              <option value="" disabled selected>Choose author</option>
-              <option
-                v-for="author in authors"
-                v-bind:value="author.id"
-                :key="author.id"
-              >
-                {{ author.name }}
-              </option>
-            </select>
-          </div> -->
         </form>
       </section>
       <footer class="modal-card-foot">
@@ -72,7 +58,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      authors: [],
       articles: [],
       title: undefined,
       body: undefined,
@@ -93,7 +78,11 @@ export default {
     },
 
     id: {
-        type: Number
+      type: Number
+    },
+
+    createdAt: {
+      type: String
     }
   },
 
@@ -117,26 +106,26 @@ export default {
   },
 
   methods: {
-    
     editPost(id) {
       axios
-        .put(this.$apiUrl + "/articles/" + id, {
+        .patch(this.$apiUrl + "/articles/" + id, {
           title: this.title,
           body: this.body,
-          updateddAt: new Date().toLocaleString("lt-LT")
+          createdAt: this.createdAt,
+          updatedAt: new Date().toLocaleString("lt-LT")
         })
         .then(response => console.log(response))
-        .then(() => this.$emit("reload-posts"));
-      // .catch(
-      //   error => (
-      //     (error.message = "Article was not created! Problems with server!"),
-      //     this.errors.push(error)
-      //   )
-      // );
+        .then(() => this.$emit("reload-posts"))
+        .catch(
+          error => (
+            (error.message = "Article was not created! Problems with server!"),
+            this.errors.push(error)
+          )
+        );
 
-      //   if (!this.errors.length) {
-      //     this.resetFields();
-      //   }
+      if (!this.errors.length) {
+        this.resetFields();
+      }
 
       this.disabled = [this.disabled[1], true];
     },
@@ -152,7 +141,7 @@ export default {
     },
 
     validateTitle(value) {
-      if (!value.length) {
+      if (!value) {
         this.emptyerror["title"] = "where is the title?";
         this.disabled = [false, this.disabled[1]];
       } else {
@@ -162,7 +151,7 @@ export default {
     },
 
     validateBody(value) {
-      if (!value.length) {
+      if (!value) {
         this.emptyerror["body"] = "where is the body?";
         this.disabled = [this.disabled[1], true];
       } else {
@@ -176,7 +165,6 @@ export default {
 
     resetFields() {
       this.title = undefined;
-      this.author = undefined;
       this.body = undefined;
     },
 

@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Create new post</p>
+        <p class="modal-card-title">Create new article</p>
         <button
           class="delete"
           aria-label="close"
@@ -143,11 +143,18 @@ export default {
           id: this.id
         })
         .then(response => (this.authors = response.data))
-        .then(response => console.log(response));
+        .then(response => console.log(response))
+        .catch(
+          error => (
+            (error.message = "Article was not created! Problems with server!"),
+            this.errors.push(error)
+          )
+        );
+
     },
 
     validateTitle(value) {
-      if (!value.length) {
+      if (!value) {
         this.emptyerror["title"] = "where is the title?";
         this.disabled = [false, this.disabled[1]];
       } else {
@@ -157,7 +164,7 @@ export default {
     },
 
     validateBody(value) {
-      if (!value.length) {
+      if (!value) {
         this.emptyerror["body"] = "where is the body?";
         this.disabled = [this.disabled[1], true];
       } else {
