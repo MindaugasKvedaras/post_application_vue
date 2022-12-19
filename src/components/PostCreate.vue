@@ -33,7 +33,6 @@
           <label class="label">Select author</label>
           <div class="select is-primary">
             <select v-model="author" required>
-              <option value="" disabled selected>Choose author</option>
               <option
                 v-for="author in authors"
                 v-bind:value="author.id"

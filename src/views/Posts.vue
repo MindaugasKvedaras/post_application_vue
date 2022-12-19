@@ -1,17 +1,25 @@
 <template>
   <div class="posts-container">
     <div class="button-search_container">
-      <button class="button is-primary is-medium" @click="toggleModal">Create new post</button>
+      <button class="button is-primary is-medium" @click="toggleModal">
+        Create new post
+      </button>
       <div class="search-box">
         <p class="title">Search post</p>
-      <input
-        class="input is-primary"
-        type="text"
-        v-model="searchTerm"
-        v-debounce:1s="searchPosts"
-        debounce-event="input"
-      />
-      <p class="subtitle has-text-danger" v-if="!articles.length">Sorry :( there is no post with your search "{{ searchTerm }}"</p>
+        <input
+          class="input is-primary"
+          type="text"
+          v-model="searchTerm"
+          v-debounce:1s="searchPosts"
+          debounce-event="input"
+        />
+        <p v-if="errors.length">Sorry NO posts</p>
+        <p
+          class="subtitle has-text-danger"
+          v-if="!articles.length & !errors.length"
+        >
+          Sorry :( there is no post with your search "{{ searchTerm }}"
+        </p>
       </div>
     </div>
 
@@ -28,6 +36,14 @@
       v-on:close-modal="closeModal"
       v-on:reload-posts="handleGetPosts"
     ></post-create>
+
+    <post-pagination
+      :page="page"
+      :pages="pages"
+      :perPage="perPage"
+      v-on:set-post-page="setPostPage"
+    >
+    </post-pagination>
 
     <div class="post-container">
       <post-card
@@ -48,6 +64,7 @@ import axios from "axios";
 import PostCard from "../components/PostCard.vue";
 import PostCreate from "../components/PostCreate.vue";
 import PostGetError from "../components/PostGetError.vue";
+import PostPagination from "../components/PostPagination.vue";
 
 export default {
   data() {
@@ -57,14 +74,17 @@ export default {
       visibleError: false,
       searchTerm: undefined,
       errors: [],
-      
+      page: 1,
+      perPage: 4,
+      pages: []
     };
   },
 
   components: {
     PostCard,
     PostCreate,
-    PostGetError
+    PostGetError,
+    PostPagination
   },
 
   methods: {
@@ -86,6 +106,12 @@ export default {
         .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
         .then(response => (this.articles = response.data))
         .then(response => console.log(response))
+        .then(
+          this.$router.push({
+            path: "/articles",
+            query: { search: this.searchTerm }
+          })
+        )
         .catch(error => {
           error.message = "Oops your server doesn't work!";
           if (error.request) {
@@ -101,7 +127,25 @@ export default {
       } else {
         this.getFilteredPosts();
       }
-      
+    },
+
+    setPages() {
+      let numberOfPages = Math.ceil(this.articles.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    },
+
+    paginate(articles) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = page * perPage - perPage;
+      let to = page * perPage;
+      return articles.slice(from, to);
+    },
+
+    setPostPage() {
+      this.page = this.pageNUmber;
     },
 
     handleGetPosts() {
@@ -124,8 +168,20 @@ export default {
     }
   },
 
+  watch: {
+    articles() {
+      this.setPages();
+    }
+  },
+
+  computed: {
+    displayedArticles() {
+      return this.paginate(this.articles);
+    }
+  },
+
   created() {
-    this.getPosts();
+    this.searchPosts();
   }
 };
 </script>

@@ -2,10 +2,14 @@
   <div class="post-container">
     <div>
       <h1 class="title">{{ title }}</h1>
-      <p>Author: {{ author }}</p>
+      <p class="subtitle is-6">Article created by {{ author }}</p>
     </div>
     <div>
-      <p class="content">{{ body }}</p>
+      <p class="subtitle">{{ body }}</p>
+    </div>
+    <div class="date">
+      <p class="subtitle is-6">Article created <i>{{ createdAt}}</i></p>
+      <p class="subtitle is-6" v-if="updatedAt">Article updated <i>{{ updatedAt }}</i></p>
     </div>
   </div>
 </template>
@@ -19,6 +23,9 @@ export default {
       title: undefined,
       body: undefined,
       author: undefined,
+      createdAt: undefined,
+      updatedAt: undefined,
+      id: undefined,
       name: [],
       authors: [],
     };
@@ -32,9 +39,13 @@ export default {
         .get(this.$apiUrl + "/articles/" + id)
         .then(
           response => (
+            (this.id = response.data.id)
             (this.title = response.data.title),
             (this.body = response.data.body),
-            (this.author = response.data.author)
+            (this.author = response.data.author),
+            (this.createdAt = response.data.createdAt),
+            (this.updatedAt = response.data.updatedAt)
+
           )
         )
         .then(response => console.log(response))
@@ -79,12 +90,18 @@ export default {
   },
 
   computed: {
+    getRightArticle() {
+      if(this.id != this.$route.params.id) {
+        this.$route.push({ name: 'pageNotFound'})
+      } else {
+        this.getArticleById(this.$route.params.id)
+      }
 
+    }
   },
 
   created() {
-    this.getArticleById(this.$route.params.id)
-
+    this.getArticleById(this.$route.params.id);
   }
 };
 </script>
@@ -94,7 +111,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin: 20px;
   gap: 40px;
+}
+
+.date {
+  margin-right: auto;
 }
 </style>

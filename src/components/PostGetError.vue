@@ -42,9 +42,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .modal-content{
-    text-align: center;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

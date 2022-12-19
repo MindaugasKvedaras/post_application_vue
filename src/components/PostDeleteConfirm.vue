@@ -2,13 +2,16 @@
   <div class="modal" :class="{ 'is-active': showDeleteConfirm }">
     <div class="modal-background"></div>
     <div class="modal-content">
-      <div>
+      <div v-if="!errors.length">
         <p class="content-text">
           Are you sure you want to delete this article?
         </p>
       </div>
-      <div class="buttons">
-        <button class="button is-danger" v-on:click="$emit('delete-post')">
+      <div class="buttons" v-if="!errors.length">
+        <button
+          class="button is-danger"
+          v-on:click="$emit('delete-post')"
+        >
           Yes
         </button>
         <button
@@ -23,9 +26,16 @@
         <p class="title has-text-danger" v-for="error in errors">
           {{ error.message }}
         </p>
-        <p class="subtitle has-text-danger">You can't delete this article. Try later!</p>
+        <p class="subtitle has-text-danger">
+          You can't delete this article. Try later!
+        </p>
       </div>
     </div>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      v-on:click="$emit('close-delete-modal')"
+    ></button>
   </div>
 </template>
 
