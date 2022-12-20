@@ -9,18 +9,19 @@ Vue.use(Router);
 export default new Router({
   mode: "history",
   routes: [
-    {
-      path: "/",
-      redirect: "/articles"
-    },
+    // {
+    //   path: "/",
+    //   name: "Posts",
+    //   component: Posts
+    // },
     {
       path: "/articles",
       name: "Posts",
       component: Posts
     },
     {
-      path: "/articles/search",
-      name: "SearchPosts",
+      path: "/search",
+      name: "SearchPost",
       component: Posts
     },
     {

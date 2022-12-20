@@ -11,15 +11,16 @@
         ></button>
       </header>
       <section class="modal-card-body">
-
         <div v-if="isEdited" class="edited-container">
           <p class="title has-text-success">Successfully edited!</p>
           <img src="../assets/homer-simpson-woohoo.gif" />
         </div>
 
         <div class="nochange_error-container" v-if="isEmptyError">
-          <p class="title has-text-danger" v-if="isEmptyError">{{ emptyerror.nochange }}</p>
-          <img src="../assets/homer-thinks.png"/>
+          <p class="title has-text-danger" v-if="isEmptyError">
+            {{ errors.nochange }}
+          </p>
+          <img src="../assets/homer-thinks.png" />
         </div>
 
         <form v-if="!isEdited" @submit.prevent="editPost(id)">
@@ -47,7 +48,7 @@
         <button
           type="submit"
           class="button is-success"
-          v-on:click="editPost(id)"
+          v-on:click="editPost(id, title)"
         >
           Edit Post
         </button>
@@ -75,9 +76,7 @@ export default {
       updatedAt: undefined,
       isEdited: false,
       errors: [],
-      emptyerror: [],
-      isEmptyError: false,
-      disabled: [true, true]
+      isEmptyError: false
     };
   },
 
@@ -116,24 +115,22 @@ export default {
 
   methods: {
     editPost(id) {
-      if (!this.newTitle & !this.newBody) {
-        this.emptyerror["nochange"] = "You did't change anything...";
+      if (!this.newTitle) {
+        this.errors["nochange"] = "C'mon your title is empty...";
         this.isEmptyError = true;
-        console.log(this.emptyerror.nochange, this.isEmptyError);
+        console.log(this.errors.nochange, this.isEmptyError);
       } else {
-        this.emptyerror["nochange"] = "";
-        console.log(this.emptyerror.nochange);
+        this.error["nochange"] = "";
+        console.log(this.errors.nochange);
         this.isEmptyError = false;
         this.editPostById(id);
       }
 
-      if (!this.errors.length && !this.emptyerror.nochange) {
+      if (!this.errors.length && !this.errors.nochange) {
         this.isEdited = true;
       } else {
         this.isEdited = false;
       }
-
-      this.disabled = [this.disabled[1], true];
     },
 
     editPostById(id) {
@@ -190,7 +187,6 @@ export default {
 </script>
 
 <style scoped>
-
 .edited-container {
   display: flex;
   flex-direction: column;

@@ -92,12 +92,12 @@ export default {
       axios
         .get(this.$apiUrl + "/articles")
         .then(response => (this.articles = response.data))
-        .then(
-          this.$router.push({
-            name: 'Posts',
-            path: "/articles",
-          })
-        )
+        // .then(
+        //   this.$router.push({
+        //     name: 'Posts',
+        //     path: "/articles",
+        //   })
+        // )
         .catch(error => {
           error.message = "Oops your server doesn't work!";
           if (error.request) {
@@ -108,14 +108,15 @@ export default {
     },
 
     getFilteredPosts() {
+
       axios
         .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
         .then(response => (this.articles = response.data))
         .then(response => console.log(response))
         .then(
           this.$router.push({
-            path: "/articles/search",
-            name: 'SearchPosts',
+            path: "/articles",
+            name: 'Posts',
             query: { q: this.searchTerm }
           })
         )
@@ -126,6 +127,7 @@ export default {
             this.showError();
           }
         });
+
     },
 
     searchPosts(searchTerm) {
