@@ -35,7 +35,7 @@
             <select v-model="author" required>
               <option
                 v-for="author in authors"
-                v-bind:value="author.id"
+                :value="author.id"
                 :key="author.id"
               >
                 {{ author.name }}

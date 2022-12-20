@@ -39,7 +39,6 @@ export default {
         .get(this.$apiUrl + "/articles/" + id)
         .then(
           response => (
-            (this.id = response.data.id)
             (this.title = response.data.title),
             (this.body = response.data.body),
             (this.author = response.data.author),
@@ -89,16 +88,16 @@ export default {
 
   },
 
-  computed: {
-    getRightArticle() {
-      if(this.id != this.$route.params.id) {
-        this.$route.push({ name: 'pageNotFound'})
-      } else {
-        this.getArticleById(this.$route.params.id)
-      }
+  // computed: {
+  //   getRightArticle() {
+  //     if(this.id != this.$route.params.id) {
+  //       this.$route.push({ name: 'pageNotFound'})
+  //     } else {
+  //       this.getArticleById(this.$route.params.id)
+  //     }
 
-    }
-  },
+  //   }
+  // },
 
   created() {
     this.getArticleById(this.$route.params.id);

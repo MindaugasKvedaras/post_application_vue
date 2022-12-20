@@ -92,6 +92,12 @@ export default {
       axios
         .get(this.$apiUrl + "/articles")
         .then(response => (this.articles = response.data))
+        .then(
+          this.$router.push({
+            name: 'Posts',
+            path: "/articles",
+          })
+        )
         .catch(error => {
           error.message = "Oops your server doesn't work!";
           if (error.request) {
@@ -108,8 +114,9 @@ export default {
         .then(response => console.log(response))
         .then(
           this.$router.push({
-            path: "/articles",
-            query: { search: this.searchTerm }
+            path: "/articles/search",
+            name: 'SearchPosts',
+            query: { q: this.searchTerm }
           })
         )
         .catch(error => {

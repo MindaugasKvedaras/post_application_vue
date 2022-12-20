@@ -4,7 +4,12 @@
         :visible="showEditPost"
         v-on:close-edit-post-modal="closeEditModal"
         :id="id"
+        :title="title"
+        :body="body"
+        @titleChanged="title = $event"
+        @bodyChanged="body = $event"
         v-on:reload-posts="reloadPosts"
+
       ></post-edit>
       <post-delete-confirm
         :visible="showDeleteConfirm"
@@ -17,7 +22,7 @@
           <lead-pencil class="edit-icon" v-on:click="showEditModal" />
           <button class="delete" v-on:click="showDeleteModal"></button>
         </div>
-        <router-link :to="{ name: 'PostDetail', params: { id: article.id, authorId: authorId } }">
+        <router-link :to="{ name: 'PostDetail', params: { id: article.id } }">
         <div class="card-content">
           <div class="media">
             <div class="media-content">
@@ -55,6 +60,7 @@ export default {
   data() {
     return {
       title: this.article.title,
+      body: this.article.body,
       authors: [],
       errors: [],
       authorId: undefined,
@@ -113,6 +119,10 @@ export default {
         })
         .then(response => (this.authors = response.data))
         .then(response => console.log(response));
+    },
+
+    editTitle(title) {
+      this.title = title;
     },
 
     showDeleteModal() {
