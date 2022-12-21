@@ -1,7 +1,6 @@
 <template>
   <div class="posts-container">
     <div class="button-search_container">
-
       <button class="button is-primary is-medium" @click="toggleModal">
         Create new post
       </button>
@@ -39,14 +38,31 @@
       v-on:reload-posts="handleGetPosts"
     ></post-create>
 
-    <post-pagination
+    <!-- <post-pagination
       :page="page"
       :pages="pages"
       :perPage="perPage"
       v-on:set-post-page="setPostPage"
-    ></post-pagination>
+    ></post-pagination> -->
 
-    <!-- <button v-for="(page, index) in pages">{{index+1}}</button> -->
+    <!-- <button
+      type="button"
+      @click="page--"
+    > -->
+    <button
+      type="button"
+      v-for="(pageNumber, index) in pages.slice(page-1, page+2)"
+      @click="getPosts(), page = pageNumber"
+      :key="index"
+    >
+      {{ pageNumber }}
+    </button>
+    <!-- <button
+      type="button"
+      @click="page++"
+    >
+      Next
+    </button> -->
 
     <div class="post-container">
       <post-card
@@ -58,7 +74,6 @@
       >
       </post-card>
     </div>
-
   </div>
 </template>
 
@@ -94,12 +109,15 @@ export default {
   methods: {
     getPosts() {
       axios
-        .get(this.$apiUrl + "/articles")
+        .get(this.$apiUrl + "/articles?_page=" + this.page)
         .then(response => (this.articles = response.data))
+        .then(console.log(this.page))
         .catch(error => {
           error.message = "Oops your server doesn't work!";
           error.request && this.errors.push(error) & this.showError();
         });
+
+        console.log(this.pages.length)
     },
 
     getFilteredPosts() {
@@ -109,7 +127,7 @@ export default {
         .then(response => console.log(response))
         .then(
           this.$router.push({
-            name: 'SearchPosts',
+            name: "SearchPosts",
             query: { q: this.searchTerm }
           })
         )
@@ -117,13 +135,22 @@ export default {
           error.message = "Oops your server doesn't work!";
           error.request && this.errors.push(error) & this.showError();
         });
-
     },
 
+    // getPaginatedPosts(page) {
+    //   axios
+    //     .get(this.$apiUrl + "/articles?_page=" + page)
+    //     .then(response => (this.articles = response.data))
+    //     .catch(error => {
+    //       error.message = "Oops your server doesn't work!";
+    //       error.request && this.errors.push(error) & this.showError();
+    //     });
+    // },
+
     searchPosts() {
-      this.searchTerm 
-      ? this.getFilteredPosts() 
-      : this.getPosts() & this.$router.push({path: '/articles'})
+      this.searchTerm
+        ? this.getFilteredPosts()
+        : this.getPosts(this.page) & this.$router.push({ path: "/articles" });
     },
 
     setPages() {
@@ -131,6 +158,8 @@ export default {
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
       }
+
+      console.log(numberOfPages)
     },
 
     paginate(articles) {
@@ -142,7 +171,7 @@ export default {
     },
 
     setPostPage() {
-      this.page = this.pageNUmber;
+      this.page = this.pageNumber;
     },
 
     handleGetPosts() {
@@ -173,7 +202,7 @@ export default {
 
   computed: {
     displayedArticles() {
-      this.paginate(this.articles).filter((post));
+      return this.paginate(this.articles);
     }
   },
 
