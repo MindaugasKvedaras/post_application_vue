@@ -2,316 +2,183 @@
   "articles": [
     {
       "id": "5",
-      "title": "Homer",
-      "body": "Cariatur reprehenderit exerckkld\nitation Loarehm vgol\nuptate est ex efefminippmcsc dkkoff eiusdxmod irure consequat sunt voluptate ex nondfvd laboreddld miniyhyfhmlll elit adipjisicinguuilhoo\nhh upsyy huuuuqqethtrgpppyyhhwwgaaa\n\n",
+      "title": "How do you check if a webpage is HTML5?",
+      "body": "Try it out on Internet Explorer",
       "author": 2,
       "createdAt": "2020-05-26 03:46:54",
-      "updatedAt": "2022-12-21 08:46:41"
+      "updatedAt": "2022-12-21 15:34:47"
     },
     {
       "id": "63a02bf88c8c6e2f3bf8a2ea",
-      "title": "Donsequat do velit",
-      "body": "Au tempor irure culpa velit ea incididunt eu ullamco magna dolor ea ipsum ipsum qui officia culpa nostrud quis aliquip",
+      "title": "Why do JAVA programmers wear glasses?",
+      "body": "Because they don't C#",
       "author": 2,
       "createdAt": "2021-07-11 11:51:37",
       "updatedAt": "2022-08-05 09:05:35"
     },
     {
       "id": "63a02bf8ec40d8114a27a6f7",
-      "title": "Culla exercitation dolore",
-      "body": "Eolor Lorem eiusmod incididunt cupidatat amet excepteur cillum est proident officia amet excepteur duis enim eu qui deserunt ea veniam",
+      "title": "Knock-knock",
+      "body": "A race condition. Who is there?",
       "author": 2,
       "createdAt": "2021-09-07 02:02:29",
       "updatedAt": "2022-06-29 01:00:29"
     },
     {
       "id": "63a02bf83fe4524c66eccfc2",
-      "title": "Luis exercitation labore",
-      "body": "Daboris do enim velit aute duis ullamco cillum minim mollit consectetur excepteur fugiat nulla in ut irure aliqua et occaecat",
+      "title": "A SQL query walks into a bar...",
+      "body": "...walks up to two tables and asks...can I join you?",
       "author": 2,
       "createdAt": "2018-01-05 09:16:10",
       "updatedAt": "2022-10-18 07:07:42"
     },
     {
       "id": "63a02bf801901e5165a4e31c",
-      "title": "En cillum ea",
-      "body": "jjfhfh\n",
+      "title": "An IPv6 packet is walking out of the house",
+      "body": "He goes nowhere",
       "author": 2,
       "createdAt": "2015-02-16 05:46:42",
       "updatedAt": "2022-12-20 20:10:27"
     },
     {
       "id": "63a02bf8885aec2f7312a81d",
-      "title": "Eeserunt cillum labore",
-      "body": "Von nulla et laborum ex ex aute consectetur sunt commodo occaecat nisi amet magna cupidatat occaecat qui ea deserunt id",
+      "title": "A UI is like a joke",
+      "body": "If you have to explain it then it is not that good",
       "author": 2,
       "createdAt": "2014-12-28 01:13:45",
       "updatedAt": "2022-09-16 12:43:47"
     },
     {
       "id": "63a02bf8c1544165030e26e5",
-      "title": "Oroident commodo esse",
-      "body": "Iu labore ullamco reprehenderit proident sunt id in sunt reprehenderit dolor et sit eu officia esse ipsum aliquip minim et",
+      "title": "There are 10 types of people in this world...",
+      "body": "Those who understand binary and those who don't",
       "author": 1,
       "createdAt": "2021-08-13 01:04:20",
-      "updatedAt": "2022-06-23 08:58:29"
+      "updatedAt": "2022-12-21 14:12:16"
     },
     {
       "id": "63a02bf848a23e8104658084",
-      "title": "Drure occaecat magna",
-      "body": "Colore ipsum irure reprehenderit laborum velit adipisicing laborum duis anim fugiat eiusmod minim nostrud cillum ad ut id sit qui",
+      "title": "Why did the programmer quit his job?",
+      "body": "Because he didn't get arrays.",
       "author": 1,
       "createdAt": "2022-10-16 04:13:13",
-      "updatedAt": "2022-03-17 10:11:08"
+      "updatedAt": "2022-12-21 14:12:47"
     },
     {
       "id": "63a02bf82d072f9878a251fb",
-      "title": "Tollit ex eu",
-      "body": "Mmet laborum excepteur nulla veniam proident id reprehenderit pariatur minim dolor nostrud et sit occaecat in consectetur reprehenderit velit ex",
+      "title": "What did the router say to the doctor?",
+      "body": "It hurts when IP.",
       "author": 2,
       "createdAt": "2018-02-24 10:28:59",
-      "updatedAt": "2022-04-23 05:16:35"
+      "updatedAt": "2022-12-21 14:13:44"
     },
     {
       "id": "63a02bf8fa22a151d445652b",
-      "title": "Nmet nulla velit",
-      "body": "Fisi voluptate id do sunt occaecat magna do sit eu consequat consectetur consectetur laboris consectetur officia tempor sunt laboris minim",
+      "title": "I was gonna tell you a joke about UDP...",
+      "body": "...but you might not get it.",
       "author": 1,
       "createdAt": "2017-06-30 03:28:05",
-      "updatedAt": "2022-11-13 08:54:50"
+      "updatedAt": "2022-12-21 14:16:04"
     },
     {
       "id": "63a02bf83838a0c04abf7f6c",
-      "title": "Qelit aute excepteur",
-      "body": "Allamco non culpa culpa qui velit ex velit ipsum laborum ea aliquip dolor labore minim enim sit id culpa sit",
+      "title": "Programming is like sex...",
+      "body": "One mistake and you have to support it for the rest of your life.",
       "author": 1,
       "createdAt": "2022-09-01 05:43:13",
-      "updatedAt": "2022-03-04 01:24:48"
+      "updatedAt": "2022-12-21 14:21:34"
     },
     {
       "id": "63a02bf8ffdde8251c66ba9b",
-      "title": "Ct magna cupidatat",
-      "body": "Da dolore labore pariatur aliquip minim officia aute ut eiusmod nostrud quis officia exercitation dolore qui ad adipisicing labore labore",
+      "title": "A man is smoking a cigarette and blowing smoke rings into the air.",
+      "body": "His girlfriend becomes irritated with the smoke and says, “Can’t you see the warning on the cigarette pack?  Smoking is hazardous to your health!”\n\nTo which the man replies, “I am a programmer.  We don’t worry about warnings; we only worry about errors.”",
       "author": 1,
       "createdAt": "2014-05-17 02:05:20",
-      "updatedAt": "2022-08-22 04:21:12"
-    },
-    {
-      "id": "63a02bf859275ab09e8677e1",
-      "title": "Eariatur incididunt sit",
-      "body": "Fulpa enim amet aliqua magna velit aliquip excepteur do irure pariatur cillum pariatur anim Lorem cupidatat veniam esse nisi magna",
-      "author": 2,
-      "createdAt": "2017-08-18 03:10:16",
-      "updatedAt": "2022-08-09 12:15:00"
-    },
-    {
-      "id": "63a02bf813ae4d91fb036597",
-      "title": "Clit in esse",
-      "body": "Ist nostrud incididunt mollit aute consequat commodo ipsum ipsum non duis non id velit qui dolore id ea et excepteur",
-      "author": 1,
-      "createdAt": "2016-11-28 03:16:37",
-      "updatedAt": "2022-09-23 08:44:35"
-    },
-    {
-      "id": "63a02bf80f47515e195bd7b5",
-      "title": "Sollit dolore tempor",
-      "body": "St aute non id do eiusmod cupidatat dolor deserunt nulla officia fugiat irure duis officia commodo anim amet amet commodo",
-      "author": 1,
-      "createdAt": "2019-03-16 09:06:51",
-      "updatedAt": "2022-08-29 11:25:43"
-    },
-    {
-      "id": "63a02bf80ddfdc37c137531e",
-      "title": "Cint dolore esse",
-      "body": "Crure eu aliquip amet irure sint proident anim labore dolor elit magna non eu magna quis anim occaecat ipsum nisi",
-      "author": 1,
-      "createdAt": "2019-06-23 05:43:51",
-      "updatedAt": "2022-10-30 04:49:34"
-    },
-    {
-      "id": "63a02bf834f6b794c59be2d2",
-      "title": "Eolore elit consequat",
-      "body": "Eolore pariatur irure elit ad proident ad culpa sit veniam occaecat eiusmod non pariatur irure velit ea occaecat tempor ut",
-      "author": 2,
-      "createdAt": "2022-09-22 01:20:29",
-      "updatedAt": "2022-09-02 09:45:08"
-    },
-    {
-      "id": "63a02bf8612f0caa90517e1e",
-      "title": "Einim elit velit",
-      "body": "Eunt voluptate est ullamco quis qui aliqua ad eiusmod fugiat exercitation irure quis aute quis tempor culpa ut sunt consequat",
-      "author": 2,
-      "createdAt": "2019-01-31 10:29:57",
-      "updatedAt": "2022-05-24 03:06:34"
-    },
-    {
-      "id": "63a02bf87d83a4d2e2198616",
-      "title": "Ceprehenderit aute amet",
-      "body": "Eisi do aliqua incididunt culpa adipisicing nulla veniam amet ex do ullamco pariatur ex minim reprehenderit anim proident et eiusmod",
-      "author": 2,
-      "createdAt": "2015-12-08 04:20:32",
-      "updatedAt": "2022-11-13 03:13:14"
-    },
-    {
-      "id": "63a02bf84c54512dfe0fee89",
-      "title": "Lccaecat aliquip ut",
-      "body": "Eillum aliqua esse pariatur commodo enim dolor proident do dolore nisi nulla culpa consequat do sint non nulla sunt eu",
-      "author": 2,
-      "createdAt": "2022-01-07 04:48:33",
-      "updatedAt": "2022-06-04 09:34:04"
+      "updatedAt": "2022-12-21 14:22:32"
     },
     {
       "id": "63a02bf86a6491d4bb9c9a54",
-      "title": "Lolor ad dolor",
-      "body": "Eonsectetur aute cillum ullamco commodo Lorem eiusmod tempor ex labore aliquip aute mollit nisi sint qui est exercitation esse non",
+      "title": "['hip', 'hip']",
+      "body": "(hip hip array)",
       "author": 1,
       "createdAt": "2017-04-11 09:47:47",
-      "updatedAt": "2022-09-18 10:18:04"
+      "updatedAt": "2022-12-21 14:17:12"
     },
     {
       "id": "63a02bf8e8a29478e556bdda",
-      "title": "Incididunt adipisicing occaecat",
-      "body": "Eu exercitation fugiat ut ex incididunt ut et aute do sint culpa excepteur commodo esse ex excepteur mollit anim pariatur",
+      "title": "How many programmers does it take to change a lightbulb?",
+      "body": "None that's a hardware problem",
       "author": 2,
       "createdAt": "2019-10-18 05:09:37",
-      "updatedAt": "2022-04-14 08:43:45"
+      "updatedAt": "2022-12-21 14:17:53"
     },
     {
       "id": "63a02bf879af56f6e30baf38",
-      "title": "Lnim qui cillum",
-      "body": "At eu labore amet ipsum pariatur veniam magna est ullamco do non cillum eu irure ut voluptate incididunt aliqua deserunt",
+      "title": "Why do C# and Java developers keep breaking their keyboards?",
+      "body": "Because they use a strongly typed language.",
       "author": 1,
       "createdAt": "2015-02-23 10:04:51",
-      "updatedAt": "2022-06-07 08:31:38"
+      "updatedAt": "2022-12-21 14:18:57"
     },
     {
       "id": "63a02bf8498f1b3791293614",
-      "title": "Sempor elit id",
-      "body": "Aui et velit dolor ipsum aliqua reprehenderit ipsum labore incididunt cillum irure tempor occaecat consectetur Lorem ea labore ipsum voluptate",
+      "title": "How did the programmer die in the shower?",
+      "body": "He read the shampoo bottle instructions: Lather. Rinse. Repeat.",
       "author": 1,
       "createdAt": "2014-01-17 01:34:22",
-      "updatedAt": "2022-04-13 04:28:01"
+      "updatedAt": "2022-12-21 14:20:37"
     },
     {
       "id": "63a02bf8d2dad1431c0543fa",
-      "title": "Con aute mollit",
-      "body": "Ud reprehenderit ipsum enim voluptate amet sint veniam enim et veniam commodo sint officia proident incididunt amet sint officia magna",
+      "title": "A computer science student is studying",
+      "body": "A computer science student is studying under a tree and another pulls up on a flashy new bike.  The first student asks, “Where’d you get that?”\n\nThe student on the bike replies, “While I was studying outside, a beautiful girl pulled up on her bike.  She took off all her clothes and said, ‘You can have anything you want’.”\n\nThe first student responds, “Good choice!  Her clothes probably wouldn’t have fit you.”",
       "author": 1,
       "createdAt": "2014-05-02 10:25:03",
-      "updatedAt": "2022-07-21 01:50:16"
+      "updatedAt": "2022-12-21 14:24:57"
     },
     {
       "id": "63a02bf82212c8ab08158022",
-      "title": "Poluptate voluptate ex",
-      "body": "Pnim duis irure nisi eu minim et minim ea voluptate dolore velit consectetur eiusmod laborum laboris nostrud qui veniam anim",
+      "title": "Laws of Computer Programming",
+      "body": "1. Any given program, when running, is obsolete.\n\n2. Any given program costs more and takes longer.\n\n3. If a program is useful, it will have to be changed.\n\n4. If a program is useless, it will have to be documented.\n\n5. Any program will expand to fill available memory.\n\n6. The value of a program is proportional to the weight of its output.\n\n7. Program complexity grows until it exceeds the capabilities of the programmer who must maintain it.\n\n8. Any non-trivial program contains at least one bug.\n\n9. Undetectable errors are infinite in variety, in contrast to detectable errors, which by definition are limited.\n\n10. Adding manpower to a late software project makes it later.",
       "author": 1,
       "createdAt": "2016-08-06 03:09:56",
-      "updatedAt": "2022-07-27 06:51:03"
+      "updatedAt": "2022-12-21 14:29:15"
     },
     {
-      "title": "New post from teltonika",
-      "body": "I'm writing text about nothing",
+      "title": "Why computers are like men",
+      "body": "1. In order to get their attention, you have to turn them on.\n2. They have a lot of data, but are still clueless.\n3. They are supposed to help you solve problems, but half the time they are the problem.\n4. As soon as you commit to one, you realize that if you had waited a little longer, you could have had a better model.",
       "author": 1,
-      "createdAt": "2022-12-19 13:23:09",
-      "id": "x7-MrUT"
+      "createdAt": "2022-12-21 14:47:19",
+      "id": "GNHbo2v",
+      "updatedAt": "2022-12-21 14:51:03"
     },
     {
-      "title": "fhdhbd",
-      "body": "dfgdf",
+      "title": "Why computers are like women",
+      "body": "1. No one but the Creator understands their internal logic.\n2. The native language they use to communicate with other computers is incomprehensible to everyone else.\n3. Even your smallest mistakes are stored in long-term memory for later retrieval.\n4. As soon as you make a commitment to one, you find yourself spending half your paycheck on accessories for it.",
       "author": 2,
-      "createdAt": "2022-12-19 16:08:28",
-      "id": "JhU33x2"
+      "createdAt": "2022-12-21 14:52:10",
+      "id": "4C_RJ4O"
     },
     {
-      "title": "Ok",
-      "body": "bdfbdb",
+      "title": "A programmer finds himself in front of a committee",
+      "body": "A programmer finds himself in front of a committee that decides whether he should go to Heaven or Hell.  The committee tells the programmer he has a say in the matter and asks him if he wants to see either Heaven or Hell before stating his preference.\n\n“Sure,” the programmer replies.  “I have a pretty good idea what Heaven is like, so let’s see Hell.”  So an angel takes the programmer to a sunny beach, full of beautiful women in skimpy bikinis playing volleyball, listening to music and having a great time.  “Wow!” he exclaims, “Hell looks great!  I’ll take Hell!”\n\nInstantly the programmer finds himself in red-hot lava with demons tearing at his flesh.  “Where’s the beach?  The music?  The women?” he screams frantically to the angel.\n\n“That was the demo,” the angel replies as she vanishes.\n\n",
       "author": 1,
-      "createdAt": "2022-12-21 00:24:51",
-      "id": "eblBJj8"
+      "createdAt": "2022-12-21 14:52:53",
+      "id": "5xby6v5"
     },
     {
-      "title": "kkk",
-      "body": "lll",
-      "author": 1,
-      "createdAt": "2022-12-21 01:07:46",
-      "id": "2i6QVYl"
-    },
-    {
-      "title": "ewfffff",
-      "body": "fefef",
+      "title": "Jesus and Satan have an argument ",
+      "body": "Jesus and Satan have an argument as to who is the better programmer.  This goes on for a few hours until they come to an agreement to hold a contest with God as the judge.  They set themselves before their computers and begin.  They type furiously, lines of code streaming up the screen, for several hours straight.\n\nSeconds before the end of the competition, a bolt of lightning strikes, taking out the electricity.  Moments later, the power is restored, and God announces that the contest is over.  He asks Satan to show his work.  Visibly upset, Satan cries and says, “I have nothing.  I lost it all when the power went out.”\n\n“Very well,” says God, “let us see if Jesus has fared any better.”\n\nJesus presses a key, and the screen comes to life in vivid display, the voices of an angelic choir pour forth from the speakers.\n\nSatan is astonished.  He stutters, “B-b-but how?!  I lost everything, yet Jesus’ program is intact!  How did he do it?”\n\nGod chuckles, “Everybody knows… Jesus saves.”",
       "author": 2,
-      "createdAt": "2022-12-21 01:41:27",
-      "id": "UIg_Jjg"
+      "createdAt": "2022-12-21 14:53:26",
+      "id": "Ntv-eAw"
     },
     {
-      "title": "v",
-      "body": "scsdcsd",
-      "author": 2,
-      "createdAt": "2022-12-21 01:43:26",
-      "id": "oHgOCRI"
-    },
-    {
-      "title": "cwewe",
-      "body": "cwec",
-      "author": 2,
-      "createdAt": "2022-12-21 01:43:47",
-      "id": "k8d_Ih6"
-    },
-    {
-      "title": "dfvf",
-      "body": "vdfvdf",
+      "title": "Software Development Cycles",
+      "body": "1. Programmer produces code he believes is bug-free.\n2. Product is tested. 20 bugs are found.\n3. Programmer fixes 10 of the bugs and explains to the testing department that the other 10 aren’t really bugs.\n4. Testing department finds that five of the fixes didn’t work and discovers 15 new bugs.\n5. Repeat three times steps 3 and 4.\n6. Due to marketing pressure and an extremely premature product announcement based on overly-optimistic programming schedule, the product is released.\n7. Users find 137 new bugs.\n8. Original programmer, having cashed his royalty check, is nowhere to be found.\n9. Newly-assembled programming team fixes almost all of the 137 bugs, but introduce 456 new ones.\n10. Original programmer sends underpaid testing department a postcard from Fiji. Entire testing department quits.\n11. Company is bought in a hostile takeover by competitor using profits from their latest release, which had 783 bugs.\n12. New CEO is brought in by board of directors. He hires a programmer to redo program from scratch.\n13. Programmer produces code he believes is bug-free…",
       "author": 1,
-      "createdAt": "2022-12-21 01:46:40",
-      "id": "oXepF0t"
-    },
-    {
-      "title": "vrv",
-      "body": "rver",
-      "author": 1,
-      "createdAt": "2022-12-21 01:46:50",
-      "id": "BCIXREq"
-    },
-    {
-      "title": "fvv",
-      "body": "erver",
-      "author": 1,
-      "createdAt": "2022-12-21 01:48:00",
-      "id": "eE10NAB"
-    },
-    {
-      "title": "rev",
-      "body": "erverv",
-      "author": 1,
-      "createdAt": "2022-12-21 01:50:08",
-      "id": "HcKlLEI"
-    },
-    {
-      "title": "rrever",
-      "body": "verv",
-      "author": 1,
-      "createdAt": "2022-12-21 01:50:30",
-      "id": "IIuUY-B"
-    },
-    {
-      "title": "dg",
-      "body": "ergreg",
-      "author": 2,
-      "createdAt": "2022-12-21 09:56:44",
-      "id": "K9kzBFY"
-    },
-    {
-      "title": "erger",
-      "body": "gerger",
-      "author": 1,
-      "createdAt": "2022-12-21 09:56:50",
-      "id": "Z6XVwsM"
-    },
-    {
-      "title": "aergerg",
-      "body": "erger",
-      "author": 2,
-      "createdAt": "2022-12-21 09:56:59",
-      "id": "HF7Hll5"
+      "createdAt": "2022-12-21 14:56:23",
+      "id": "RABp5XQ"
     }
   ],
   "authors": [

@@ -1,15 +1,15 @@
 <template>
   <div class="post-container">
     <div>
-      <h1 class="title">{{ title }}</h1>
-      <p class="subtitle is-6">Article created by {{ author }}</p>
+      <h1 class="title has-text-primary">{{ title }}</h1>
     </div>
     <div>
       <p class="subtitle">{{ body }}</p>
     </div>
+      <p class="subtitle is-6">Article created by {{ author }}</p>
     <div class="date">
-      <p class="subtitle is-6">Article created <i>{{ createdAt}}</i></p>
-      <p class="subtitle is-6" v-if="updatedAt">Article updated <i>{{ updatedAt }}</i></p>
+      <p class="tag is-6">Article created: {{ createdAt}}</p>
+      <p class="tag is-6" v-if="updatedAt">Article updated: {{ updatedAt }}</p>
     </div>
   </div>
 </template>

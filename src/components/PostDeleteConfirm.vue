@@ -1,12 +1,15 @@
 <template>
   <div class="modal" :class="{ 'is-active': showDeleteConfirm }">
     <div class="modal-background"></div>
+
     <div class="modal-content">
+
       <div v-if="!errors.length">
         <p class="content-text">
           Are you sure you want to delete this article?
         </p>
       </div>
+
       <div class="buttons" v-if="!errors.length">
         <button
           class="button is-danger"
@@ -21,9 +24,10 @@
           No
         </button>
       </div>
+      
       <div v-if="errors.length">
         <img src="../assets/500error.png" />
-        <p class="title has-text-danger" v-for="error in errors">
+        <p class="title has-text-danger" v-for="(error, index) in errors" :key="index">
           {{ error.message }}
         </p>
         <p class="subtitle has-text-danger">

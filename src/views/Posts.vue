@@ -6,21 +6,42 @@
       </button>
 
       <div class="search-box">
-        <p class="title">Search post</p>
+        <p class="title has-text-primary">Search Post</p>
         <input
           class="input is-primary"
+          placeholder="Type Something..."
           type="text"
           v-model="searchTerm"
           v-debounce:1s="searchPosts"
           debounce-event="input"
         />
-        <p v-if="errors.length">Sorry NO posts</p>
-        <p
-          class="subtitle has-text-danger"
-          v-if="!articles.length & !errors.length"
+      </div>
+
+      <div class="no-post-container">
+        <div class=no-data v-if="errors.length">
+          <p class="title has-text-danger">Sorry NO posts for now. Come later!</p>
+          <img src="../assets/nodata.jpg"/>
+        </div>
+
+        <div class="no-data" v-if="!articles.length && !errors.length">
+          <p class="title has-text-danger">
+            Sorry, there is no post with your search "{{ searchTerm }}"
+          </p>
+          <img src="../assets/nodata.jpg"/>
+        </div>
+      </div>
+
+      <div class="pagination-box" v-if="articles.length">
+        <button
+          class="button is-small pagination-button"
+          :class="{active: showActiveButton}"
+          type="button"
+          v-for="(pageNumber, index) in pages.slice(page - 1, page + 2)"
+          @click="getPosts(), (page = pageNumber), showActiveButton != showActiveButton"
+          :key="index"
         >
-          Sorry :( there is no post with your search "{{ searchTerm }}"
-        </p>
+          {{ pageNumber }}
+        </button>
       </div>
     </div>
 
@@ -37,32 +58,6 @@
       v-on:close-modal="closeModal"
       v-on:reload-posts="handleGetPosts"
     ></post-create>
-
-    <!-- <post-pagination
-      :page="page"
-      :pages="pages"
-      :perPage="perPage"
-      v-on:set-post-page="setPostPage"
-    ></post-pagination> -->
-
-    <!-- <button
-      type="button"
-      @click="page--"
-    > -->
-    <button
-      type="button"
-      v-for="(pageNumber, index) in pages.slice(page-1, page+2)"
-      @click="getPosts(), page = pageNumber"
-      :key="index"
-    >
-      {{ pageNumber }}
-    </button>
-    <!-- <button
-      type="button"
-      @click="page++"
-    >
-      Next
-    </button> -->
 
     <div class="post-container">
       <post-card
@@ -83,7 +78,6 @@ import axios from "axios";
 import PostCard from "../components/PostCard.vue";
 import PostCreate from "../components/PostCreate.vue";
 import PostGetError from "../components/PostGetError.vue";
-import PostPagination from "../components/PostPagination.vue";
 
 export default {
   data() {
@@ -92,6 +86,7 @@ export default {
       showModal: false,
       visibleError: false,
       searchTerm: undefined,
+      showActiveButton: false,
       errors: [],
       page: 1,
       perPage: 4,
@@ -103,7 +98,6 @@ export default {
     PostCard,
     PostCreate,
     PostGetError,
-    PostPagination
   },
 
   methods: {
@@ -113,11 +107,9 @@ export default {
         .then(response => (this.articles = response.data))
         .then(console.log(this.page))
         .catch(error => {
-          error.message = "Oops your server doesn't work!";
+          error.message = "Oops! It's not your fault. Our server doesn't work for a second!";
           error.request && this.errors.push(error) & this.showError();
         });
-
-        console.log(this.pages.length)
     },
 
     getFilteredPosts() {
@@ -137,16 +129,6 @@ export default {
         });
     },
 
-    // getPaginatedPosts(page) {
-    //   axios
-    //     .get(this.$apiUrl + "/articles?_page=" + page)
-    //     .then(response => (this.articles = response.data))
-    //     .catch(error => {
-    //       error.message = "Oops your server doesn't work!";
-    //       error.request && this.errors.push(error) & this.showError();
-    //     });
-    // },
-
     searchPosts() {
       this.searchTerm
         ? this.getFilteredPosts()
@@ -159,15 +141,7 @@ export default {
         this.pages.push(index);
       }
 
-      console.log(numberOfPages)
-    },
-
-    paginate(articles) {
-      let page = this.page;
-      let perPage = this.perPage;
-      let from = page * perPage - perPage;
-      let to = page * perPage;
-      return articles.slice(from, to);
+      console.log(numberOfPages);
     },
 
     setPostPage() {
@@ -200,15 +174,8 @@ export default {
     }
   },
 
-  computed: {
-    displayedArticles() {
-      return this.paginate(this.articles);
-    }
-  },
-
   created() {
     this.searchPosts();
-    // this.displayedArticles();
   }
 };
 </script>
@@ -217,12 +184,13 @@ export default {
 .posts-container {
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  padding: 10px;
 }
 .post-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   margin: 50px 20px;
 }
@@ -239,4 +207,24 @@ export default {
   text-align: center;
   width: 50%;
 }
+
+.pagination-box {
+  display: flex;
+  gap: 5px;
+}
+
+.pagination-button {
+  width: 30px;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-data img {
+  width: 50%;
+}
+
 </style>

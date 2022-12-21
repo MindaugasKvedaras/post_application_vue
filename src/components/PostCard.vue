@@ -1,28 +1,39 @@
 <template>
-    <div>
-      <post-edit
-        :visible="showEditPost"
-        v-on:close-edit-post-modal="closeEditModal"
-        :id="id"
-        :title="title"
-        :body="body"
-        @titleChanged="title = $event"
-        @bodyChanged="body = $event"
-        v-on:reload-posts="reloadPosts"
+  <div>
+    <post-edit
+      :visible="showEditPost"
+      v-on:close-edit-post-modal="closeEditModal"
+      :id="id"
+      :title="title"
+      :body="body"
+      @titleChanged="title = $event"
+      @bodyChanged="body = $event"
+      v-on:reload-posts="reloadPosts"
+    ></post-edit>
 
-      ></post-edit>
-      <post-delete-confirm
-        :visible="showDeleteConfirm"
-        v-on:close-delete-modal="closeDeleteModal"
-        v-on:delete-post="deletePost(article.id)"
-        :errors="errors"
-      ></post-delete-confirm>
-      <div class="card">
-        <div class="editor">
-          <lead-pencil class="edit-icon" v-on:click="showEditModal" v-on:reload-page="reloadPosts" />
-          <button class="delete" v-on:click="showDeleteModal"></button>
+    <post-delete-confirm
+      :visible="showDeleteConfirm"
+      v-on:close-delete-modal="closeDeleteModal"
+      v-on:delete-post="deletePost(article.id)"
+      :errors="errors"
+    ></post-delete-confirm>
+
+    <div class="card">
+      <div class="editor">
+        <lead-pencil
+          class="edit-icon"
+          v-on:click="showEditModal"
+          v-on:reload-page="reloadPosts"
+        />
+        <div class="block">
+          <span class="tag is-danger">
+            Delete Post
+            <button class="delete" v-on:click="showDeleteModal"></button>
+          </span>
         </div>
-        <router-link :to="{ name: 'PostDetail', params: { id: article.id } }">
+      </div>
+
+      <router-link :to="{ name: 'PostDetail', params: { id: article.id } }">
         <div class="card-content">
           <div class="media">
             <div class="media-content">
@@ -38,13 +49,15 @@
             <br />
             <p class="subtitle">Author: {{ author.name }}</p>
             <br />
-            <p class="subtitle is-6">Created at: {{ article.createdAt }}</p>
-            <p v-if="article.updatedAt">Updated at: {{ article.updatedAt }}</p>
+            <div class="date-info">
+              <p class="tag">Created: {{ article.createdAt }}</p>
+              <p class="tag" v-if="article.updatedAt">Updated: {{ article.updatedAt }}</p>
+            </div>  
           </div>
         </div>
       </router-link>
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -80,23 +93,8 @@ export default {
     article: {
       required: true,
       type: Object
-    },
-  }, 
-
-  //   visibleError: {
-  //     type: Function,
-  //     default: false
-  //   }
-  // },
-
-  // watch: {
-  //   visibleError: {
-  //     immediate: false,
-  //     handler: function(newVal) {
-  //       this.visibleError = newVal;
-  //     }
-  //   },
-  // },
+    }
+  },
 
   methods: {
     deletePost(id) {
@@ -159,9 +157,9 @@ export default {
 <style scoped>
 .card {
   width: 100%;
-  min-width: 350px;
+  width: 350px;
   height: auto;
-  min-height: 320px;
+  height: 420px;
 }
 
 .editor {
@@ -172,13 +170,27 @@ export default {
 
 .edit-icon {
   cursor: pointer;
+  color: green;
+}
+
+.delete {
+  color: red;
 }
 
 .card-content {
   display: flex;
   flex-direction: column;
+  height: 300px;
 }
 .label {
   margin-top: 10px;
+}
+
+.title {
+  text-align: center;
+}
+
+.content {
+  margin-top: auto;
 }
 </style>

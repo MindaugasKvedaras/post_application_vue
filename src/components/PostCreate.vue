@@ -10,6 +10,7 @@
           v-on:click="closeForm()"
         ></button>
       </header>
+
       <section class="modal-card-body">
 
         <div v-if="isCreated">
@@ -68,7 +69,7 @@
         <button class="button" v-on:click.prevent="cancelPostCreate()">
           Cancel
         </button>
-        <p class="error" v-for="error of errors.slice(0, 1)">
+        <p class="error" v-for="(error, index) of errors.slice(0, 1)" :key="index">
           {{ error.message }}
         </p>
       </footer>

@@ -60,7 +60,7 @@
         <button class="button" v-on:click.prevent="cancelPostEdit()">
           Cancel
         </button>
-        <p class="error" v-if="errors" v-for="error of errors.slice(0, 1)">
+        <p class="error" v-if="errors" v-for="(error, index) of errors.slice(0, 1)" :key="index">
           {{ error.message }}
         </p>
       </footer>
@@ -120,9 +120,9 @@ export default {
 
   methods: {
     editPost(id) {
-      (this.newTitle) ? (this.editPostById(id), this.checkErrors())
+      (this.newTitle) ? (this.editPostById(id), this.checkErrors(this.errors))
       : 
-      (this.newBody) ? (this.editPostById(id), thischeckErrors()) 
+      (this.newBody) ? (this.editPostById(id), this.checkErrors(this.errors)) 
       : 
       this.isEmptyError = true
 
@@ -132,9 +132,11 @@ export default {
       // !this.newBody ? (this.errors["emptybody"] = "Body is required", this.isEmptyError = true) : null;
     },
 
-    editPostById(id) {
+     editPostById(id)  {
       this.isEmptyError = false;
-      this.errors = [];
+      // this.errors = [];
+      // (this.errors.length || this.isNewBody) ? this.isEdited = true : this.isEdited = false;
+
 
       axios
         .patch(this.$apiUrl + "/articles/" + id, {
@@ -149,21 +151,10 @@ export default {
           error => (
             (error.message = "Article can't be edited! Problems with server!"),
             this.errors.push(error),
-            console.log(this.errors.length),
+            console.log(error),
             this.isEmptyError = false
           )
         )
-
-        !this.errors.length ? this.isEdited = true : null,
-
-
-
-        console.log(this.errors.length);
-
-        
-        console.log(this.isEdited)
-
-
 
     },
 
@@ -177,8 +168,8 @@ export default {
         .then(response => console.log(response));
     },
 
-    checkErrors() {
-      this.errors.length ? this.isEdited = true : null
+    checkErrors(errors) {
+      !errors ? this.isEdited = true : errors ? this.isEdited = false : null
     },
 
     checkPostChanges(id) {
@@ -208,12 +199,7 @@ export default {
     changeBody(event) {
       this.newBody = event.target.value;
       this.$emit("bodyChanged", this.newBody);
-    }
-  },
-
-  computed: {
-    titleValidation() {
-      return this.NewTitle.length > 0
+      
     }
   },
 

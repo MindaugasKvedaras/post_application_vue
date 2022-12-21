@@ -48,4 +48,8 @@ export default {
     flex-direction: column;
     align-items: center;
   }
+
+  .title {
+    text-align: center;
+  }
 </style>
