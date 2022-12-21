@@ -1,9 +1,11 @@
 <template>
   <div class="posts-container">
     <div class="button-search_container">
+
       <button class="button is-primary is-medium" @click="toggleModal">
         Create new post
       </button>
+
       <div class="search-box">
         <p class="title">Search post</p>
         <input
@@ -42,8 +44,9 @@
       :pages="pages"
       :perPage="perPage"
       v-on:set-post-page="setPostPage"
-    >
-    </post-pagination>
+    ></post-pagination>
+
+    <!-- <button v-for="(page, index) in pages">{{index+1}}</button> -->
 
     <div class="post-container">
       <post-card
@@ -55,6 +58,7 @@
       >
       </post-card>
     </div>
+
   </div>
 </template>
 
@@ -92,50 +96,34 @@ export default {
       axios
         .get(this.$apiUrl + "/articles")
         .then(response => (this.articles = response.data))
-        // .then(
-        //   this.$router.push({
-        //     name: 'Posts',
-        //     path: "/articles",
-        //   })
-        // )
         .catch(error => {
           error.message = "Oops your server doesn't work!";
-          if (error.request) {
-            this.errors.push(error);
-            this.showError();
-          }
+          error.request && this.errors.push(error) & this.showError();
         });
     },
 
     getFilteredPosts() {
-
       axios
         .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
         .then(response => (this.articles = response.data))
         .then(response => console.log(response))
         .then(
           this.$router.push({
-            path: "/articles",
-            name: 'Posts',
+            name: 'SearchPosts',
             query: { q: this.searchTerm }
           })
         )
         .catch(error => {
           error.message = "Oops your server doesn't work!";
-          if (error.request) {
-            this.errors.push(error);
-            this.showError();
-          }
+          error.request && this.errors.push(error) & this.showError();
         });
 
     },
 
-    searchPosts(searchTerm) {
-      if (!searchTerm) {
-        this.getPosts();
-      } else {
-        this.getFilteredPosts();
-      }
+    searchPosts() {
+      this.searchTerm 
+      ? this.getFilteredPosts() 
+      : this.getPosts() & this.$router.push({path: '/articles'})
     },
 
     setPages() {
@@ -185,12 +173,13 @@ export default {
 
   computed: {
     displayedArticles() {
-      return this.paginate(this.articles);
+      this.paginate(this.articles).filter((post));
     }
   },
 
   created() {
     this.searchPosts();
+    // this.displayedArticles();
   }
 };
 </script>

@@ -7,49 +7,60 @@
         <button
           class="delete"
           aria-label="close"
-          v-on:click="$emit('close-modal')"
+          v-on:click="closeForm()"
         ></button>
       </header>
       <section class="modal-card-body">
-        <form>
+
+        <div v-if="isCreated">
+          <p class="title has-text-success">Successfully created</p>
+          <button class="button is-success" @click="isCreated = false">Create More</button>
+        </div>
+
+        <form v-if="!isCreated">
           <label class="label">Title</label>
           <input
             class="input is-success"
+            :class="{ 'is-danger': isEmptyErrorTitle}"
             type="text"
             v-model="title"
+            @input="checkTitle()"
             required
           />
-          <span v-if="emptyerror.title">{{ emptyerror.title }}</span>
+          <span class="subtitle is-6 has-text-danger" v-if="emptyErrorMsg.title">{{ emptyErrorMsg.title }}</span>
 
           <label class="label">Article text</label>
           <textarea
             class="textarea is-primary"
+            :class="{ 'is-danger': isEmptyErrorBody}"
             v-model="body"
             type="text"
+            @input="checkBody()"
             required
           />
-          <span v-if="emptyerror.body">{{ emptyerror.body }}</span>
+          <span class="subtitle is-6 has-text-danger" v-if="emptyErrorMsg.body">{{ emptyErrorMsg.body }}</span>
 
           <label class="label">Select author</label>
-          <div class="select is-primary">
+          <div class="select is-primary" :class="{ 'is-danger': isEmptyErrorAuthor}">
             <select v-model="author" required>
               <option
                 v-for="author in authors"
                 :value="author.id"
                 :key="author.id"
+                @change="checkAuthor()"
               >
                 {{ author.name }}
               </option>
             </select>
+            <span class="subtitle is-6 has-text-danger" v-if="emptyErrorMsg.author">{{ emptyErrorMsg.author }}</span>
           </div>
         </form>
       </section>
-      <footer class="modal-card-foot">
+      <footer class="modal-card-foot" v-if="!isCreated">
         <button
           type="submit"
           class="button is-success"
           v-on:click="createPost"
-          :disabled="!disabled.every(i => i === false)"
         >
           Create Post
         </button>
@@ -78,7 +89,11 @@ export default {
       showModal: this.visible,
       createdAt: undefined,
       errors: [],
-      emptyerror: [],
+      emptyErrorMsg: [],
+      isCreated: false,
+      isEmptyErrorTitle: false,
+      isEmptyErrorBody: false,
+      isEmptyErrorAuthor: false,
       disabled: [true, true]
     };
   },
@@ -100,18 +115,49 @@ export default {
 
     title(value) {
       this.title = value;
-      this.validateTitle(value);
     },
 
     body(value) {
       this.body = value;
-      this.validateBody(value);
     }
-
   },
 
   methods: {
+
     createPost() {
+      this.errors = [];
+
+      ((!this.title) && (this.body && this.author)) 
+      ? (this.isEmptyErrorTitle = true,
+        this.emptyErrorMsg["title"] = "Don't forget the title" 
+        )
+      :
+      ((!this.body) && (this.title && this.author))
+      ? (this.isEmptyErrorBody = true,
+        this.emptyErrorMsg["body"] = "Don't forget the body" 
+        )
+      :
+      ((!this.author) && (this.title && this.body))
+      ? (this.isEmptyErrorAuthor = true,
+        this.emptyErrorMsg["author"] = "Please select author" 
+        )
+      :
+      (!this.author && !this.title && !this.body)
+      ? (this.isEmptyErrorTitle = true,
+        this.isEmptyErrorBody = true,  
+        this.isEmptyErrorAuthor = true, 
+        this.emptyErrorMsg["title"] = "Don't forget the title",
+        this.emptyErrorMsg["body"] = "Don't forget the body",
+        this.emptyErrorMsg["author"] = "Please select author" 
+        )   
+      : this.sendPost() 
+
+      console.log(this.author);
+    },
+
+    sendPost() {
+      this.checkTitle();
+      this.checkBody();
       axios
         .post(this.$apiUrl + "/articles", {
           title: this.title,
@@ -130,10 +176,30 @@ export default {
 
       if (!this.errors.length) {
         this.resetFields();
+        this.isCreated = true;
+        this.isEmptyErrorAuthor = false;
+        this.emptyErrorMsg = [];
       }
-
-        this.disabled = [this.disabled[1], true];
     },
+
+    checkTitle() {
+      (!this.title) 
+      ? (this.emptyErrorMsg["title"] = "Don't forget the title", this.isEmptyErrorTitle = true) 
+      : (this.emptyErrorMsg["title"] = "", this.isEmptyErrorTitle = false)
+    },
+
+    checkBody() {
+      (!this.body) 
+      ? (this.emptyErrorMsg["body"] = "Don't forget the body", this.isEmptyErrorBody = true) 
+      : (this.emptyErrorMsg["body"] = "", this.isEmptyErrorBody = false)
+    },
+
+    checkAuthor() {
+      (!this.author) 
+      ? (this.emptyErrorMsg["auhor"] = "Please select author", this.isEmptyErrorAuthor = true) 
+      : (this.emptyErrorMsg["author"] = "", this.isEmptyErrorAuthor = false)
+    },
+
 
     getAuthors() {
       axios
@@ -152,40 +218,22 @@ export default {
 
     },
 
-    validateTitle(value) {
-      if (!value) {
-        this.emptyerror["title"] = "where is the title?";
-        this.disabled = [false, this.disabled[1]];
-      } else {
-        this.emptyerror["title"] = undefined;
-        this.disabled = [true, this.disabled[1]];
-      }
+    closeForm() {
+      this.$emit('close-modal');
+      this.isCreated = false;
     },
 
-    validateBody(value) {
-      if (!value) {
-        this.emptyerror["body"] = "where is the body?";
-        this.disabled = [this.disabled[1], true];
-      } else {
-        this.emptyerror["body"] = undefined;
-        this.disabled = [this.disabled[1], false];
-      }
-
-    },
     cancelPostCreate() {
       this.resetFields();
+      this.emptyErrorMsg = []
+      this.isEmptyError = [];
     },
 
     resetFields() {
       this.title = undefined;
-      this.author = undefined;
       this.body = undefined;
+      this.author = "";
     },
-
-    handleEmptyInputError() {
-      this.titleError = "Empty";
-      this.bodyError = "Empty body";
-    }
   },
 
   created() {

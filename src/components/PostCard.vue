@@ -19,7 +19,7 @@
       ></post-delete-confirm>
       <div class="card">
         <div class="editor">
-          <lead-pencil class="edit-icon" v-on:click="showEditModal" />
+          <lead-pencil class="edit-icon" v-on:click="showEditModal" v-on:reload-page="reloadPosts" />
           <button class="delete" v-on:click="showDeleteModal"></button>
         </div>
         <router-link :to="{ name: 'PostDetail', params: { id: article.id } }">

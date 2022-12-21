@@ -31,7 +31,6 @@ export default {
     };
   },
 
-
   methods: {
 
     getArticleById(id) {
@@ -44,60 +43,22 @@ export default {
             (this.author = response.data.author),
             (this.createdAt = response.data.createdAt),
             (this.updatedAt = response.data.updatedAt)
-
           )
         )
         .then(response => console.log(response))
         .then(this.getAuthors)
-        // .then(response => this.getAuthorsById(response.data.author))
         .catch(error => {
           error.message = "Oops your server doesn't work!";
-          if (error.request) {
-            this.errors.push(error);
-            this.showError();
-          }
+          error.request && this.errors.push(error) & this.showError();
         });
     },
 
     getAuthors() {
-        if(this.author = 1) {
-            this.author = "Mindaugas"
-        } else {
-            this.author = "Domas"
+        this.author = 1 
+        ? this.author = "Mindaugas"
+        : this.author = "Domas"
         }
-
-        console.log(this.author)
     },
-
-    // getAuthorName() {
-    //     this.name = Object.values(this.authors)
-
-    //     console.log(this.name);
-    // },
-
-
-    // getAuthorsById() {
-    //   axios
-    //     .get(this.$apiUrl + "/authors/")
-    //     .then(response => (this.authors = response.data))
-    //     .then(response => (console.log(response)))
-    //     .then(console.log(this.authors))
-    //     .then(this.getAuthors());
-
-    // },
-
-  },
-
-  // computed: {
-  //   getRightArticle() {
-  //     if(this.id != this.$route.params.id) {
-  //       this.$route.push({ name: 'pageNotFound'})
-  //     } else {
-  //       this.getArticleById(this.$route.params.id)
-  //     }
-
-  //   }
-  // },
 
   created() {
     this.getArticleById(this.$route.params.id);

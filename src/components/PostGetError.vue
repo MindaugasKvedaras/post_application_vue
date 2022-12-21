@@ -28,7 +28,6 @@ export default {
       type: Boolean,
       default: false
     }
-
   },
 
   watch: {
@@ -40,6 +39,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style scoped>
