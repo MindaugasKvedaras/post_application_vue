@@ -23,7 +23,6 @@
           <p class="title has-text-danger">
             You forgot to make changes!
           </p>
-          <img src="../assets/homer-thinks.png" />
         </div>
 
         <form v-if="!isEdited" @submit.prevent="editPost(id)">

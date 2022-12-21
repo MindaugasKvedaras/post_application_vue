@@ -1,6 +1,6 @@
 <template>
   <div class="error-container">
-    <img src="../assets/error.png" />
+    <img src="../assets/crying.gif" />
     <div class="text-box">
       <h1 class="title">Aww...Don't Cry</h1>
       <p class="subtitle">It's just 404 error!</p>
@@ -17,7 +17,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 10%;
+  height: 100vh;
+}
+
+.error-container img {
+  width: 30%;
 }
 
 .text-box {
