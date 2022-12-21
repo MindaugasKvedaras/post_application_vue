@@ -6,7 +6,7 @@
       </button>
 
       <div class="search-box">
-        <p class="title has-text-primary">Search Post</p>
+        <p class="title has-text-primary">Search Funny Joke</p>
         <input
           class="input is-primary"
           placeholder="Type Something..."
@@ -23,7 +23,7 @@
           <img src="../assets/nodata.jpg"/>
         </div>
 
-        <div class="no-data" v-if="!articles.length && !errors.length">
+        <div class="no-data" v-if="!articles.length && !errors.length && !loading">
           <p class="title has-text-danger">
             Sorry, there is no post with your search "{{ searchTerm }}"
           </p>
@@ -32,8 +32,10 @@
       </div>
 
       <div class="pagination-box" v-if="articles.length">
+        <p class="subtitle is-6 has-text-primary">Go through pages</p>
+        <div class="buttons">
         <button
-          class="button is-small pagination-button"
+          class="button is-small is-primary is-light pagination-button"
           :class="{active: showActiveButton}"
           type="button"
           v-for="(pageNumber, index) in pages.slice(page - 1, page + 2)"
@@ -42,6 +44,12 @@
         >
           {{ pageNumber }}
         </button>
+        </div>
+      </div>
+
+      <div class="no-data loading" v-if="loading">
+        <p class="subtitle has-text-primary">Loading...Take a breath</p>
+        <img src="../assets/loading.gif"/>
       </div>
     </div>
 
@@ -59,7 +67,7 @@
       v-on:reload-posts="handleGetPosts"
     ></post-create>
 
-    <div class="post-container">
+    <div class="post-container" v-if="!loading">
       <post-card
         v-for="article in articles"
         :key="article.id"
@@ -87,6 +95,7 @@ export default {
       visibleError: false,
       searchTerm: undefined,
       showActiveButton: false,
+      loading: false,
       errors: [],
       page: 1,
       perPage: 4,
@@ -130,9 +139,14 @@ export default {
     },
 
     searchPosts() {
+      this.loading = true;
+      setTimeout(() => {
       this.searchTerm
         ? this.getFilteredPosts()
-        : this.getPosts(this.page) & this.$router.push({ path: "/articles" });
+        : this.getPosts() & this.$router.push({ path: "/articles" });
+        
+        this.loading = false;
+      }, 3000)
     },
 
     setPages() {
@@ -175,8 +189,9 @@ export default {
   },
 
   created() {
-    this.searchPosts();
+      this.searchPosts();
   }
+    
 };
 </script>
 
@@ -185,6 +200,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  height: 100vh;
 }
 .post-container {
   display: flex;
@@ -210,7 +226,7 @@ export default {
 
 .pagination-box {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
 }
 
 .pagination-button {
@@ -225,6 +241,10 @@ export default {
 
 .no-data img {
   width: 50%;
+}
+
+.loading img {
+  width: 100%;
 }
 
 </style>

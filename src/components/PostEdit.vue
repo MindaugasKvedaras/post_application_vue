@@ -120,21 +120,16 @@ export default {
 
   methods: {
     editPost(id) {
-      (this.newTitle) ? (this.editPostById(id), this.checkErrors(this.errors))
+      (this.newTitle) ? (this.editPostById(id), this.checkErrors())
       : 
-      (this.newBody) ? (this.editPostById(id), this.checkErrors(this.errors)) 
+      (this.newBody) ? (this.editPostById(id), this.checkErrors()) 
       : 
       this.isEmptyError = true
-
-
-      // !this.newTitle ? (this.errors["emptytitle"] = "Title is required", this.isEmptyError = true)
-      // :
-      // !this.newBody ? (this.errors["emptybody"] = "Body is required", this.isEmptyError = true) : null;
     },
 
      editPostById(id)  {
       this.isEmptyError = false;
-      // this.errors = [];
+      this.errors = [];
       // (this.errors.length || this.isNewBody) ? this.isEdited = true : this.isEdited = false;
 
 
@@ -168,8 +163,8 @@ export default {
         .then(response => console.log(response));
     },
 
-    checkErrors(errors) {
-      !errors ? this.isEdited = true : errors ? this.isEdited = false : null
+    checkErrors() {
+      !this.errors.length ? this.isEdited = true : null
     },
 
     checkPostChanges(id) {
