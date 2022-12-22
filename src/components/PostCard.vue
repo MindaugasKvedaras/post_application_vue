@@ -28,7 +28,7 @@
         <div class="block">
           <span class="tag is-danger">
             Delete Post
-            <button class="delete" @:click="showDeleteModal"></button>
+            <button class="delete" @click="showDeleteModal"></button>
           </span>
         </div>
       </div>
