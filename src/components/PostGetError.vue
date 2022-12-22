@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" :class="{ 'is-active': visibleError }">
+  <div class="modal" :class="{ 'is-active': showError }">
     <div class="modal-background"></div>
     <div class="modal-content">
       <img src="../assets/500error.png" alt="500-error"/>
@@ -13,7 +13,7 @@
 export default {
   data() {
     return {
-      visibleError: this.visible
+      showError: this.visible
     };
   },
 
@@ -34,7 +34,7 @@ export default {
     visible: {
       immediate: true,
       handler: function(newVal) {
-        this.visibleError = newVal;
+        this.showError = newVal;
       }
     }
   }

@@ -14,7 +14,7 @@
     <post-delete-confirm
       :visible="showDeleteConfirm"
       :errors="errors"
-      @close-delete-modal="closeDeleteModal"
+      @close-delete-modal="toggleDeleteModal"
       @delete-post="deletePost(article.id)"
     ></post-delete-confirm>
 
@@ -28,7 +28,7 @@
         <div class="block">
           <span class="tag is-danger">
             Delete Post
-            <button class="delete" @click="showDeleteModal"></button>
+            <button class="delete" @click="toggleDeleteModal"></button>
           </span>
         </div>
       </div>
@@ -95,7 +95,7 @@ export default {
     article: {
       required: true,
       type: Object
-    }
+    },
   },
 
   methods: {
@@ -103,8 +103,8 @@ export default {
       axios
         .delete(this.$apiUrl + "/articles/" + id)
         .then(() => this.reloadPosts())
+        .then(console.log(id))
         .catch(error => {
-          error.message = "Oops server doesn't work!";
           if (error.request) {
             this.errors.push(error);
           }
@@ -120,12 +120,8 @@ export default {
         .then(response => (this.authors = response.data))
     },
 
-    showDeleteModal() {
-      this.showDeleteConfirm = true;
-    },
-
-    closeDeleteModal() {
-      this.showDeleteConfirm = false;
+    toggleDeleteModal() {
+      this.showDeleteConfirm = !this.showDeleteConfirm;
     },
 
     showEditModal() {

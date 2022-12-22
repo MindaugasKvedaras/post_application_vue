@@ -71,6 +71,16 @@
 import axios from "axios";
 
 export default {
+
+  watch: {
+    visible: {
+      immediate: true,
+      handler: function(newVal) {
+        this.showEditPost = newVal;
+      }
+    }
+  },
+
   data() {
     return {
       newPostTitle: undefined,
@@ -109,15 +119,6 @@ export default {
     }
   },
 
-  watch: {
-    visible: {
-      immediate: true,
-      handler: function(newVal) {
-        this.showEditPost = newVal;
-      }
-    }
-  },
-
   methods: {
     editPost(id) {
       (this.titleChanged || this.bodyChanged) && !this.errors.length
@@ -137,7 +138,10 @@ export default {
           updatedAt: new Date().toLocaleString("lt-LT")
         })
         .then(() => this.$emit("reload-posts"))
-        .then(() => this.isEdited = true, this.titleChanged = false, this.bodyChanged = false)
+        .then(() => this.isEdited = true, 
+                    this.titleChanged = false, 
+                    this.bodyChanged = false, 
+                    this.isEmptyError = false)
         .catch(
           error => (
             (error.message = "Article can't be edited! Problems with server!"),

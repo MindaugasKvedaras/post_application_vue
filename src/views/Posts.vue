@@ -12,7 +12,7 @@
           placeholder="Type Something..."
           type="text"
           v-model="searchTerm"
-          v-debounce:1s="searchPosts"
+          v-debounce:1s="getFilteredPosts"
           debounce-event="input"
         />
       </div>
@@ -39,15 +39,28 @@
       <div class="pagination-box" v-if="articles.length">
         <p class="subtitle is-6 has-text-primary">Go through pages</p>
         <div class="buttons">
+          <button 
+            class="button is-small is-primary is-light page-button"
+            @click="getPosts(1, postPerPage)"
+          >
+          First
+          </button>
           <button
             class="button is-small is-primary is-light pagination-button"
             :class="{ active: showActiveButton }"
-            v-for="(pageNumber, index) in pages.slice(page - 1, page + 2)"
-            @click="getPosts(pageNumber), showActiveButton != showActiveButton"
+            v-for="(pageNumber, index) in pages"
+            @click="getPosts(pageNumber, postPerPage), showActiveButton != showActiveButton"
             :key="index"
           >
             {{ pageNumber }}
           </button>
+          <button 
+            class="button is-small is-primary is-light page-button"
+            @click="getPosts(8, postPerPage)"
+          >
+          Last
+          </button>
+
         </div>
       </div>
 
@@ -59,16 +72,17 @@
 
     <post-get-error
       v-for="error of errors"
-      :visible="visibleError"
+      :visible="showError"
       :error="error"
       :key="error.code"
-      @close-error="closeError"
+      @close-error="toggleError"
     ></post-get-error>
 
     <post-create
       :visible="showModal"
-      @:close-modal="closeModal"
-      @:reload-posts="handleGetPosts"
+      @toggle-error="toggleError"
+      @close-modal="toggleModal"
+      @reload-posts="handleGetPosts"
     ></post-create>
 
     <div class="post-container" v-if="!loading">
@@ -76,8 +90,8 @@
         v-for="article in articles"
         :key="article.id"
         :article="article"
-        @:reload-posts="handleGetPosts"
-        @:show-error="showError"
+        @reload-posts="handleGetPosts"
+        @show-error="toggleError"
       >
       </post-card>
     </div>
@@ -99,81 +113,48 @@ export default {
   },
 
   created() {
-    this.searchPosts();
-  },
-
-  watch: {
-    articles() {
-      this.setPages();
-    }
+    this.getPosts(1, 3);
+    console.log(this.postPerPage)
   },
 
   data() {
     return {
       articles: [],
       showModal: false,
-      visibleError: false,
+      showError: false,
       searchTerm: undefined,
       showActiveButton: false,
       loading: false,
       isPosts: false,
       errors: [],
-      page: 1,
-      perPage: 4,
-      pages: []
+      postPerPage: 3,
+      pages: ["1", "2", "3", "4", "5", "6", "7", "8"]
     };
   },
 
   methods: {
-    getPosts(pageNumber) {
+    getPosts(pageNumber, postPerPage) {
       axios
-        .get(this.$apiUrl + "/articles?_page=" + pageNumber)
+        .get(this.$apiUrl + `/articles?_page=${pageNumber}&_limit=${postPerPage}`)
         .then(response => (this.articles = response.data))
-        .then(console.log(this.page))
         .then(() => (this.isPosts = true))
         .catch(error => {
-          error.message =
-            "Oops! It's not your fault. Our server doesn't work for a second!";
-          error.request && this.errors.push(error) & this.showError();
+          error.request && this.errors.push(error) & this.toggleError();
         });
     },
 
     getFilteredPosts() {
-      axios
-        .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
-        .then(response => (this.articles = response.data))
-        .then(
-          this.$router.push({
-            name: "SearchPosts",
-            query: { q: this.searchTerm }
-          })
-        )
-        .catch(error => {
-          error.message = "Oops your server doesn't work!";
-          error.request && this.errors.push(error) & this.showError();
-        });
-    },
-
-    searchPosts() {
       this.loading = true;
-      setTimeout(() => {
-        this.searchTerm
-          ? this.getFilteredPosts()
-          : this.getPosts() & this.$router.push({ path: "/articles" });
-
-        this.loading = false;
-      }, 3000);
-    },
-
-    setPages() {
-      let numberOfPages = Math.ceil(this.articles.length / this.perPage);
-      for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
-      }
-    },
-
-    setPostPage() {
-      this.page = this.pageNumber;
+      this.searchTerm
+        ? axios
+          .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
+          .then(response => (this.articles = response.data))
+          .catch(error => {
+            error.request && this.errors.push(error) & this.toggleError();
+          })
+        : this.getPosts() & this.$router.push({ path: "/articles" });
+        
+      this.loading = false  
     },
 
     handleGetPosts() {
@@ -181,18 +162,11 @@ export default {
     },
 
     toggleModal() {
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
+      this.showModal = !this.showModal;
     },
 
-    showError() {
-      this.visibleError = true;
-    },
-
-    closeError() {
-      this.visibleError = false;
+    toggleError() {
+      this.showError = !this.showError;
     }
   }
 };
@@ -230,10 +204,15 @@ export default {
 .pagination-box {
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .pagination-button {
   width: 30px;
+}
+
+.page-button {
+  width: 60px;
 }
 
 .no-data {

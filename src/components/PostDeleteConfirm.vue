@@ -60,7 +60,8 @@ export default {
 
     errors: {
       type: Array
-    }
+    },
+
   },
 
   watch: {
