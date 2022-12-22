@@ -30,8 +30,8 @@
           <input
             class="input is-success"
             type="text"
-            :value="title"
-            @input="changeTitle"
+            :value="postTitle"
+            @input="changePostTitle"
             @keyup.enter="editPost(id)"
             required
           />
@@ -39,8 +39,8 @@
           <label class="label">Article text</label>
           <textarea
             class="textarea is-primary"
-            :value="body"
-            @input="changeBody"
+            :value="postBody"
+            @input="changePostBody"
             type="text"
             required
           />
@@ -50,7 +50,6 @@
 
       <footer class="modal-card-foot" v-if="!isEdited">
         <button
-          type="submit"
           class="button is-success"
           v-on:click="editPost(id)"
         >
@@ -74,10 +73,12 @@ import axios from "axios";
 export default {
   data() {
     return {
-      newTitle: undefined,
-      newBody: undefined,
+      newPostTitle: undefined,
+      newPostBody: undefined,
       showEditPost: this.visible,
       updatedAt: undefined,
+      titleChanged: false,
+      bodyChanged: false,
       isEdited: false,
       errors: [],
       isEmptyError: false
@@ -95,11 +96,11 @@ export default {
       type: String
     },
 
-    title: {
+    postTitle: {
       required: String
     },
 
-    body: {
+    postBody: {
       type: String
     },
 
@@ -119,37 +120,32 @@ export default {
 
   methods: {
     editPost(id) {
-      (this.newTitle) ? (this.editPostById(id), this.checkErrors())
-      : 
-      (this.newBody) ? (this.editPostById(id), this.checkErrors()) 
-      : 
-      this.isEmptyError = true
+      (this.titleChanged || this.bodyChanged) && !this.errors.length
+      ? this.handleEditPostById(id)
+      : this.isEmptyError = true
     },
 
-     editPostById(id)  {
+     handleEditPostById(id)  {
       this.isEmptyError = false;
       this.errors = [];
-      // (this.errors.length || this.isNewBody) ? this.isEdited = true : this.isEdited = false;
-
 
       axios
         .patch(this.$apiUrl + "/articles/" + id, {
-          title: this.newTitle,
-          body: this.newBody,
+          title: this.newPostTitle,
+          body: this.newPostBody,
           createdAt: this.createdAt,
           updatedAt: new Date().toLocaleString("lt-LT")
         })
-        .then(response => console.log(response))
         .then(() => this.$emit("reload-posts"))
+        .then(() => this.isEdited = true, this.titleChanged = false, this.bodyChanged = false)
         .catch(
           error => (
             (error.message = "Article can't be edited! Problems with server!"),
             this.errors.push(error),
-            console.log(error),
-            this.isEmptyError = false
+            this.isEdited = false,
+            this.isEmptyError = true
           )
         )
-
     },
 
     getAuthors() {
@@ -159,25 +155,20 @@ export default {
           id: this.id
         })
         .then(response => (this.authors = response.data))
-        .then(response => console.log(response));
-    },
-
-    checkErrors() {
-      !this.errors.length ? this.isEdited = true : null
-    },
-
-    checkPostChanges(id) {
-      (this.newTitle && this.newBody) && this.editPostById(id);
-      !this.newTitle ? this.errors["emptytitle"] = "Title is required" : null;
-      console.log(errors.emptytitle);
-      !this.newBody ? this.errors["emptybody"] = "Body is required" : null;
-
+        .catch(
+          error => (
+            (error.message = "Article can't be edited! Problems with server!"),
+            this.errors.push(error),
+            this.isEdited = false,
+            this.isEmptyError = true
+          )
+        )
     },
 
     cancelPostEdit() {
       this.$emit("close-edit-post-modal");
-      this.newTitle = undefined;
-      this.newBody = undefined;
+      this.newPostTitle = undefined;
+      this.newPostBody = undefined;
       this.isEdited = false;
       this.isEmptyError = false;
       this.errors["nochange"] = undefined;
@@ -185,21 +176,18 @@ export default {
       this.errors = [];
     },
 
-    changeTitle(event) {
-      this.newTitle = event.target.value;
-      this.$emit("titleChanged", this.newTitle);
+    changePostTitle(event) {
+      this.newPostTitle = event.target.value;
+      this.$emit("postTitleChanged", this.newPostTitle);
+      this.titleChanged = true;
     },
 
-    changeBody(event) {
-      this.newBody = event.target.value;
-      this.$emit("bodyChanged", this.newBody);
-      
+    changePostBody(event) {
+      this.newPostBody = event.target.value;
+      this.$emit("postBodyChanged", this.newPostBody);
+      this.bodyChanged = true;
     }
   },
-
-  created() {
-    console.log(this.errors.length);
-  }
 };
 </script>
 

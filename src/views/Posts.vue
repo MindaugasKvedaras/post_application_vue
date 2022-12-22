@@ -18,38 +18,42 @@
       </div>
 
       <div class="no-post-container">
-        <div class=no-data v-if="errors.length">
-          <p class="title has-text-danger">Sorry NO posts for now. Come later!</p>
-          <img src="../assets/nodata.jpg"/>
+        <div class="no-data" v-if="articles.length < 0 && !this.isPosts">
+          <p class="title has-text-danger">
+            Sorry NO posts for now. Come later!
+          </p>
+          <img src="../assets/nodata.jpg" />
         </div>
 
-        <div class="no-data" v-if="!articles.length && !errors.length && !loading">
+        <div
+          class="no-data"
+          v-if="!articles.length && !errors.length && !loading"
+        >
           <p class="title has-text-danger">
             Sorry, there is no post with your search "{{ searchTerm }}"
           </p>
-          <img src="../assets/nodata.jpg"/>
+          <img src="../assets/nodata.jpg" />
         </div>
       </div>
 
       <div class="pagination-box" v-if="articles.length">
         <p class="subtitle is-6 has-text-primary">Go through pages</p>
         <div class="buttons">
-        <button
-          class="button is-small is-primary is-light pagination-button"
-          :class="{active: showActiveButton}"
-          type="button"
-          v-for="(pageNumber, index) in pages.slice(page - 1, page + 2)"
-          @click="getPosts(), (page = pageNumber), showActiveButton != showActiveButton"
-          :key="index"
-        >
-          {{ pageNumber }}
-        </button>
+          <button
+            class="button is-small is-primary is-light pagination-button"
+            :class="{ active: showActiveButton }"
+            v-for="(pageNumber, index) in pages.slice(page - 1, page + 2)"
+            @click="getPosts(pageNumber), showActiveButton != showActiveButton"
+            :key="index"
+          >
+            {{ pageNumber }}
+          </button>
         </div>
       </div>
 
       <div class="no-data loading" v-if="loading">
         <p class="subtitle has-text-primary">Loading...Take a breath</p>
-        <img src="../assets/loading.gif"/>
+        <img src="../assets/loading.gif" />
       </div>
     </div>
 
@@ -58,13 +62,13 @@
       :visible="visibleError"
       :error="error"
       :key="error.code"
-      v-on:close-error="closeError"
+      @close-error="closeError"
     ></post-get-error>
 
     <post-create
       :visible="showModal"
-      v-on:close-modal="closeModal"
-      v-on:reload-posts="handleGetPosts"
+      @:close-modal="closeModal"
+      @:reload-posts="handleGetPosts"
     ></post-create>
 
     <div class="post-container" v-if="!loading">
@@ -72,8 +76,8 @@
         v-for="article in articles"
         :key="article.id"
         :article="article"
-        v-on:reload-posts="handleGetPosts"
-        v-on:show-error="showError"
+        @:reload-posts="handleGetPosts"
+        @:show-error="showError"
       >
       </post-card>
     </div>
@@ -88,6 +92,22 @@ import PostCreate from "../components/PostCreate.vue";
 import PostGetError from "../components/PostGetError.vue";
 
 export default {
+  components: {
+    PostCard,
+    PostCreate,
+    PostGetError
+  },
+
+  created() {
+    this.searchPosts();
+  },
+
+  watch: {
+    articles() {
+      this.setPages();
+    }
+  },
+
   data() {
     return {
       articles: [],
@@ -96,6 +116,7 @@ export default {
       searchTerm: undefined,
       showActiveButton: false,
       loading: false,
+      isPosts: false,
       errors: [],
       page: 1,
       perPage: 4,
@@ -103,20 +124,16 @@ export default {
     };
   },
 
-  components: {
-    PostCard,
-    PostCreate,
-    PostGetError,
-  },
-
   methods: {
-    getPosts() {
+    getPosts(pageNumber) {
       axios
-        .get(this.$apiUrl + "/articles?_page=" + this.page)
+        .get(this.$apiUrl + "/articles?_page=" + pageNumber)
         .then(response => (this.articles = response.data))
         .then(console.log(this.page))
+        .then(() => (this.isPosts = true))
         .catch(error => {
-          error.message = "Oops! It's not your fault. Our server doesn't work for a second!";
+          error.message =
+            "Oops! It's not your fault. Our server doesn't work for a second!";
           error.request && this.errors.push(error) & this.showError();
         });
     },
@@ -125,7 +142,6 @@ export default {
       axios
         .get(this.$apiUrl + "/articles?q=" + this.searchTerm)
         .then(response => (this.articles = response.data))
-        .then(response => console.log(response))
         .then(
           this.$router.push({
             name: "SearchPosts",
@@ -141,12 +157,12 @@ export default {
     searchPosts() {
       this.loading = true;
       setTimeout(() => {
-      this.searchTerm
-        ? this.getFilteredPosts()
-        : this.getPosts() & this.$router.push({ path: "/articles" });
-        
+        this.searchTerm
+          ? this.getFilteredPosts()
+          : this.getPosts() & this.$router.push({ path: "/articles" });
+
         this.loading = false;
-      }, 3000)
+      }, 3000);
     },
 
     setPages() {
@@ -154,8 +170,6 @@ export default {
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
       }
-
-      console.log(numberOfPages);
     },
 
     setPostPage() {
@@ -180,18 +194,7 @@ export default {
     closeError() {
       this.visibleError = false;
     }
-  },
-
-  watch: {
-    articles() {
-      this.setPages();
-    }
-  },
-
-  created() {
-      this.searchPosts();
   }
-    
 };
 </script>
 
@@ -246,5 +249,4 @@ export default {
 .loading img {
   width: 100%;
 }
-
 </style>

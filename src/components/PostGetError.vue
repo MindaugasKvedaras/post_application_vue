@@ -5,7 +5,7 @@
       <img src="../assets/500error.png" alt="500-error"/>
       <h1 class="title has-text-danger">{{ error.message }}</h1>
     </div>
-    <button class="modal-close is-large" aria-label="close" v-on:click="$emit('close-error')"></button>
+    <button class="modal-close is-large" aria-label="close" @click="$emit('close-error')"></button>
   </div>
 </template>
 

@@ -13,13 +13,13 @@
       <div class="buttons" v-if="!errors.length">
         <button
           class="button is-danger"
-          v-on:click="$emit('delete-post')"
+          @click="$emit('delete-post')"
         >
           Yes
         </button>
         <button
           class="button is-success"
-          v-on:click="$emit('close-delete-modal')"
+          @click="$emit('close-delete-modal')"
         >
           No
         </button>
@@ -38,7 +38,7 @@
     <button
       class="modal-close is-large"
       aria-label="close"
-      v-on:click="$emit('close-delete-modal')"
+      @click="$emit('close-delete-modal')"
     ></button>
   </div>
 </template>

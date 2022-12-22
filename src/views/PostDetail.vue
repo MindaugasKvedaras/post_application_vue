@@ -6,9 +6,9 @@
     <div>
       <p class="subtitle">{{ body }}</p>
     </div>
-      <p class="subtitle is-6">Article created by {{ author }}</p>
+    <p class="subtitle is-6">Article created by {{ author }}</p>
     <div class="date">
-      <p class="tag is-6">Article created: {{ createdAt}}</p>
+      <p class="tag is-6">Article created: {{ createdAt }}</p>
       <p class="tag is-6" v-if="updatedAt">Article updated: {{ updatedAt }}</p>
     </div>
   </div>
@@ -20,32 +20,35 @@ import axios from "axios";
 export default {
   data() {
     return {
-      title: undefined,
-      body: undefined,
-      author: undefined,
+      postTitle: undefined,
+      postBody: undefined,
+      postAuthor: undefined,
       createdAt: undefined,
       updatedAt: undefined,
       id: undefined,
-      name: [],
-      authors: [],
+      authorName: [],
+      authors: []
     };
   },
 
   methods: {
+
+    created() {
+      this.getArticleById(this.$route.params.id);
+    },
 
     getArticleById(id) {
       axios
         .get(this.$apiUrl + "/articles/" + id)
         .then(
           response => (
-            (this.title = response.data.title),
-            (this.body = response.data.body),
-            (this.author = response.data.author),
+            (this.postTitle = response.data.title),
+            (this.postBody = response.data.body),
+            (this.postAuthor = response.data.author),
             (this.createdAt = response.data.createdAt),
             (this.updatedAt = response.data.updatedAt)
           )
         )
-        .then(response => console.log(response))
         .then(this.getAuthors)
         .catch(error => {
           error.message = "Oops your server doesn't work!";
@@ -54,14 +57,8 @@ export default {
     },
 
     getAuthors() {
-        this.author = 1 
-        ? this.author = "Mindaugas"
-        : this.author = "Domas"
-        }
-    },
-
-  created() {
-    this.getArticleById(this.$route.params.id);
+      this.postAuthor === 1 ? (this.postAuthor = "Mindaugas") : (this.postAuthor = "Domas");
+    }
   }
 };
 </script>

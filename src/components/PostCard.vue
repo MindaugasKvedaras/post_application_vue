@@ -2,33 +2,33 @@
   <div>
     <post-edit
       :visible="showEditPost"
-      v-on:close-edit-post-modal="closeEditModal"
       :id="id"
-      :title="title"
-      :body="body"
-      @titleChanged="title = $event"
-      @bodyChanged="body = $event"
-      v-on:reload-posts="reloadPosts"
+      :postTitle="postTitle"
+      :postBody="postBody"
+      @close-edit-post-modal="closeEditModal"
+      @postTitleChanged="postTitle = $event"
+      @postBodyChanged="postBody = $event"
+      @reload-posts="reloadPosts"
     ></post-edit>
 
     <post-delete-confirm
       :visible="showDeleteConfirm"
-      v-on:close-delete-modal="closeDeleteModal"
-      v-on:delete-post="deletePost(article.id)"
       :errors="errors"
+      @close-delete-modal="closeDeleteModal"
+      @delete-post="deletePost(article.id)"
     ></post-delete-confirm>
 
     <div class="card">
       <div class="editor">
         <lead-pencil
           class="edit-icon"
-          v-on:click="showEditModal"
-          v-on:reload-page="reloadPosts"
+          @click="showEditModal"
+          @reload-page="reloadPosts"
         />
         <div class="block">
           <span class="tag is-danger">
             Delete Post
-            <button class="delete" v-on:click="showDeleteModal"></button>
+            <button class="delete" @:click="showDeleteModal"></button>
           </span>
         </div>
       </div>
@@ -42,12 +42,12 @@
           </div>
           <div
             class="content"
-            v-for="author in authors"
-            :key="author.id"
-            v-if="article.author == author.id"
+            v-for="postAuthor in authors"
+            :key="postAuthor.id"
+            v-if="article.author == postAuthor.id"
           >
             <br />
-            <p class="subtitle">Author: {{ author.name }}</p>
+            <p class="subtitle">Author: {{ postAuthor.name }}</p>
             <br />
             <div class="date-info">
               <p class="tag">Created: {{ article.createdAt }}</p>
@@ -64,16 +64,24 @@
 import axios from "axios";
 
 import LeadPencil from "vue-material-design-icons/Pencil.vue";
-
 import PostDeleteConfirm from "./PostDeleteConfirm.vue";
-
 import PostEdit from "./PostEdit.vue";
 
 export default {
+  components: {
+    LeadPencil,
+    PostDeleteConfirm,
+    PostEdit
+  },
+
+  created() {
+    this.getAuthors();
+  },
+
   data() {
     return {
-      title: this.article.title,
-      body: this.article.body,
+      postTitle: this.article.title,
+      postBody: this.article.body,
       authors: [],
       errors: [],
       authorId: undefined,
@@ -81,12 +89,6 @@ export default {
       showDeleteConfirm: false,
       showEditPost: false
     };
-  },
-
-  components: {
-    LeadPencil,
-    PostDeleteConfirm,
-    PostEdit
   },
 
   props: {
@@ -116,11 +118,6 @@ export default {
           authorId: this.id
         })
         .then(response => (this.authors = response.data))
-        .then(response => console.log(response));
-    },
-
-    editTitle(title) {
-      this.title = title;
     },
 
     showDeleteModal() {
@@ -148,9 +145,6 @@ export default {
     }
   },
 
-  created() {
-    this.getAuthors();
-  }
 };
 </script>
 
